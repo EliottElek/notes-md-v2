@@ -4327,7 +4327,7 @@ eslint-plugin-flowtype@^8.0.3:
     lodash "^4.17.21"
     string-natural-compare "^3.0.1"
 
-eslint-plugin-import@^2.25.3:
+eslint-plugin-import@^2.25.3, eslint-plugin-import@^2.26.0:
   version "2.26.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.26.0.tgz#f812dc47be4f2b72b478a021605a59fc6fe8b88b"
   integrity sha512-hYfi3FXaM8WPLf4S1cikh/r4IxnO6zrhZbEGz2b660EJRbuxgpDS5gkCuYgGWg2xxh2rBuIr4Pvhve/7c31koA==
@@ -8273,6 +8273,13 @@ react-slugify@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-slugify/-/react-slugify-2.1.0.tgz#01d93b80381dcd47fe6e074eb137a475579967a7"
   integrity sha512-X+kYdGP1WumAX2exool+1lwjLSZ1dDCaCzwF0KvDWHjPfCD4hxtHvok4oyZEZro2lioaR+lCtyVG8ti2Yvpnsg==
+
+react-tailwindcss-select@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-tailwindcss-select/-/react-tailwindcss-select-1.6.0.tgz#ae7795cca2fefc63ec0774d7b1c72f1c2195df66"
+  integrity sha512-+1x3C0aQHrK6A4g5sQ6cpUdF459E1xwHMrMgqjy9o0tqYzyvd1vmSdc9ssjbdMnUPEGclUKUygeFy7+blNZ3hQ==
+  dependencies:
+    eslint-plugin-import "^2.26.0"
 
 react@^18.2.0:
   version "18.2.0"

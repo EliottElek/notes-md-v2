@@ -1,53 +1,43 @@
 import React, { useRef, useState } from "react";
 import { CheckIcon } from "@heroicons/react/24/outline";
-import { ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
-const Tooltip = ({ children }) => {
-  // pseudo-element "after" to make the tooltip arrow
-  return (
-    <div
-      className="absolute flex items-center font-sans py-0.5 px-1.5 rounded-sm dark:bg-slate-600 bg-slate-300 dark:text-slate-200 top-1.5 right-10
-        after:content-['']
-        after:absolute
-        after:w-0
-        after:h-0 
-        after:left-full
-        after:border-b-[5px]
-        after:border-t-[5px]
-        after:border-transparent
-        after:border-l-[7px] 
-      dark:after:border-l-slate-600
-      after:border-l-slate-300
-      "
-    >
-      {children}
-    </div>
-  );
-};
+import { IoCopyOutline } from "react-icons/io5";
+import { Tooltip } from "@material-tailwind/react";
 const CopyToClipBoard = ({ textRef }) => {
-  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   //function to copy to clipboard
   const copyToClipBoard = () => {
     if (textRef.current !== null && textRef.current.textContent !== null) {
       navigator.clipboard.writeText(textRef.current.textContent);
-      setOpen(true);
-      setTimeout(() => setOpen(false), 2000);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
   };
   return (
-    <>
-      {open && (
-        <Tooltip>
-          Copied <CheckIcon className="text-sky-500 h-5 w-5" />
-        </Tooltip>
-      )}
+    <Tooltip
+      animate={{
+        mount: { scale: 1, y: 0.7 },
+        unmount: { scale: 0, y: 0 },
+      }}
+      className="bg-gray-700"
+      content={
+        copied ? (
+          <span className="flex gap-1">
+            Copied <CheckIcon className="h-5 w-5" />
+          </span>
+        ) : (
+          <span>Copy content</span>
+        )
+      }
+      placement="left"
+    >
       <button
         className="text-slate-200 h-6 w-6 absolute top-2 right-2"
         onClick={copyToClipBoard}
       >
-        <ClipboardDocumentListIcon className="text-slate-200 opacity-30 hover:opacity-100 duration-75" />
+        <IoCopyOutline className="text-slate-200 h-5 w-5 opacity-30 hover:opacity-100 duration-75" />
       </button>
-    </>
+    </Tooltip>
   );
 };
 
