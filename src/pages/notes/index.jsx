@@ -44,10 +44,10 @@ const Note = () => {
     const fileData = note.markdown;
     const blob = new Blob([fileData], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.download = note.slug + ".md";
-    a.to = url;
-    a.click();
+    const link = document.createElement("a");
+    link.download = note.title + ".md";
+    link.href = url;
+    link.click();
   };
 
   return (
@@ -93,7 +93,7 @@ const Note = () => {
         onValidate={handleDeleteNote}
         onCancel={() => setOpen(false)}
       >
-        <p className="text-sm text-gray-200">
+        <p className="text-sm text-slate-800 dark:text-gray-100">
           Êtes-vous sûr(e) de vouloir supprimer cette note ?
         </p>
       </Modal>

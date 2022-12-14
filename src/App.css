@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  @apply dark:bg-slate-700;
 }
 
 .App-logo {
