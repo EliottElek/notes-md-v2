@@ -1,5 +1,5 @@
 .App {
-  @apply dark:bg-slate-700;
+  @apply dark:bg-slate-700 dark:text-slate-100;
 }
 
 .App-logo {
