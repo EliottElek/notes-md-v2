@@ -4,6 +4,7 @@ import Button from "../../components/Button";
 import Mdx from "../../components/Mdx";
 import Modal from "../../components/Modal";
 import Loader from "../../components/Loader";
+import Chip from "../../components/Chip";
 import SpeedDial from "../../components/SpeedDial";
 import { FiEdit } from "react-icons/fi";
 import { useParams } from "react-router";
@@ -15,6 +16,8 @@ import { Link } from "react-router-dom";
 const Note = () => {
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState(null);
+  const [tags, setTags] = useState([]);
+
   const { slug } = useParams();
   let navigate = useNavigate();
 
@@ -26,11 +29,15 @@ const Note = () => {
     } catch (err) {}
   };
   useEffect(() => {
+    const t = note?.notes_tags.map(({ tags }) => tags);
+    setTags(t);
+  }, [note]);
+  useEffect(() => {
     const loadNote = async () => {
       try {
         let { data } = await supabase
           .from("notes")
-          .select(`*`)
+          .select("slug, title, markdown, id, notes_tags(tags!inner(*))")
           .eq("slug", slug);
         setNote(data[0]);
       } catch (err) {
@@ -83,7 +90,12 @@ const Note = () => {
         </div>
       ) : (
         <div className="md:p-10 p-4 text-left">
-          <h1>{note?.title}</h1>
+          <div>
+            <div className="flex mt-3 gap-1">
+              {tags?.length !== 0 && tags?.map((t) => <Chip color={t?.color}>{t?.label}</Chip>)}
+            </div>
+            <h1>{note?.title}</h1>
+          </div>
           <Mdx mdContent={note?.markdown} />
         </div>
       )}
@@ -93,8 +105,8 @@ const Note = () => {
         onValidate={handleDeleteNote}
         onCancel={() => setOpen(false)}
       >
-        <p className="text-sm text-slate-800 dark:text-gray-100">
-          Êtes-vous sûr(e) de vouloir supprimer cette note ?
+        <p className="text-lg text-slate-800 dark:text-gray-100">
+          Are you sure you want to delete this note ? 
         </p>
       </Modal>
       <SpeedDial onDowload={exportToMd} onDelete={() => setOpen(true)} />

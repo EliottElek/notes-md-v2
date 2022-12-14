@@ -8,17 +8,34 @@ import { FiEdit } from "react-icons/fi";
 import { Link } from "react-router-dom";
 export default function Home() {
   const [notes, setNotes] = useState(null);
+  const [tags, setTags] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      let { data } = await supabase
-        .from("notes")
-        .select("slug, title, markdown, id")
-        .order("title");
-      setNotes(data);
+      try {
+        let { data } = await supabase
+          .from("notes")
+          .select("slug, title, markdown, id, notes_tags(tags!inner(*))")
+          .order("title");
+        setNotes(data);
+      } catch (e) {
+        console.log(e);
+      }
     };
     fetchData();
   }, [setNotes]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let { data } = await supabase.from("tags").select("*");
+      const d = data.map((d) => {
+        return { ...d, value: d.label };
+      });
+      setTags(d);
+    };
+    fetchData();
+  }, [setTags]);
+
   return (
     <div>
       <StickyNavbar>
@@ -38,7 +55,12 @@ export default function Home() {
       ) : (
         <main className={"main__grid"}>
           {notes?.map((note) => (
-            <Card key={note.id} note={note} />
+            <Card
+              tagsList={tags}
+              setTagsList={setTags}
+              key={note.id}
+              note={note}
+            />
           ))}
         </main>
       )}
