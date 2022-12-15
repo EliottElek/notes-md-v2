@@ -12,11 +12,13 @@ import { ChevronLeftIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import StickyNavbar from "../../components/StickyNavbar";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 const Note = () => {
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState(null);
   const [tags, setTags] = useState([]);
+  const { user } = useAuth();
 
   const { slug } = useParams();
   let navigate = useNavigate();
@@ -61,22 +63,24 @@ const Note = () => {
     <>
       <StickyNavbar>
         <div className="flex w-full items-center justify-between ">
-          <div className="flex">
-            <Link to="/">
-              <Button defaultbtn={true}>
-                <ChevronLeftIcon className="h-4 w-4" />
-                Back
+          {user && (
+            <div className="flex">
+              <Link to="/">
+                <Button defaultbtn={true}>
+                  <ChevronLeftIcon className="h-4 w-4" />
+                  Back
+                </Button>
+              </Link>
+              <Link to={"edit"}>
+                <Button defaultbtn={true}>
+                  Edit <FiEdit />
+                </Button>
+              </Link>
+              <Button onClick={() => setOpen(true)} deletebtn={true}>
+                Delete <TrashIcon className="h-4 w-4" />
               </Button>
-            </Link>
-            <Link to={"edit"}>
-              <Button defaultbtn={true}>
-                Edit <FiEdit />
-              </Button>
-            </Link>
-            <Button onClick={() => setOpen(true)} deletebtn={true}>
-              Delete <TrashIcon className="h-4 w-4" />
-            </Button>
-          </div>
+            </div>
+          )}
           <div>
             <Button onClick={exportToMd} defaultbtn={true}>
               Export to markdown
@@ -92,7 +96,8 @@ const Note = () => {
         <div className="md:p-10 p-4 text-left">
           <div>
             <div className="flex mt-3 gap-1">
-              {tags?.length !== 0 && tags?.map((t) => <Chip color={t?.color}>{t?.label}</Chip>)}
+              {tags?.length !== 0 &&
+                tags?.map((t) => <Chip color={t?.color}>{t?.label}</Chip>)}
             </div>
             <h1>{note?.title}</h1>
           </div>
@@ -106,7 +111,7 @@ const Note = () => {
         onCancel={() => setOpen(false)}
       >
         <p className="text-lg text-slate-800 dark:text-gray-100">
-          Are you sure you want to delete this note ? 
+          Are you sure you want to delete this note ?
         </p>
       </Modal>
       <SpeedDial onDowload={exportToMd} onDelete={() => setOpen(true)} />

@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import Editor from "../components/Editor";
 import { supabase } from "../lib/supabase";
 import slugify from "react-slugify";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, Navigate } from "react-router-dom";
 import Mdx from "../components/Mdx";
 import Button from "../components/Button";
 import shortid from "shortid";
 import StickyNavbar from "../components/StickyNavbar";
+import { useAuth } from "../hooks/useAuth";
 const New = () => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const createNewPost = async () => {
     if (title === "") return;
@@ -24,6 +26,8 @@ const New = () => {
       navigate("/notes/" + slug);
     } catch (err) {}
   };
+  if (!user) return <Navigate to={"/"} />;
+
   return (
     <div>
       <StickyNavbar>

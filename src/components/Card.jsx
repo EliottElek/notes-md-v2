@@ -14,11 +14,13 @@ import {
 } from "@material-tailwind/react";
 import { supabase } from "../lib/supabase";
 import AddTag from "./AddTag";
+import { useAuth } from "../hooks/useAuth";
 const Card = ({ note, tagsList, setTagsList }) => {
   const [open, setOpen] = useState(false);
   const [tags, setTags] = useState([]);
   const [openTags, setOpenTags] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
+  const { user } = useAuth();
 
   useEffect(() => {
     const t = note.notes_tags.map(({ tags }) => {
@@ -26,7 +28,6 @@ const Card = ({ note, tagsList, setTagsList }) => {
     });
     setSelectedTags(t);
     setTags(t);
-    console.log(t);
   }, [note]);
 
   const exportToMd = () => {
@@ -122,23 +123,27 @@ const Card = ({ note, tagsList, setTagsList }) => {
           >
             Download markdown
           </MenuItem>
-          <Link to={`/notes/${note.slug}/edit`} className="w-full h-full">
-            <MenuItem className="p-2 hover:bg-slate-100 hover:dark:bg-gray-800 text-center">
-              Edit note
-            </MenuItem>
-          </Link>
-          <MenuItem
-            onClick={() => setOpenTags(true)}
-            className="p-2 hover:bg-slate-100 hover:dark:bg-gray-800 text-center"
-          >
-            Manage tags
-          </MenuItem>
-          <MenuItem
-            disabled
-            className="p-2 hover:bg-red-100 hover:dark:bg-red-300 text-center text-red-600"
-          >
-            Delete note
-          </MenuItem>
+          {user && (
+            <>
+              <Link to={`/notes/${note.slug}/edit`} className="w-full h-full">
+                <MenuItem className="p-2 hover:bg-slate-100 hover:dark:bg-gray-800 text-center">
+                  Edit note
+                </MenuItem>
+              </Link>
+              <MenuItem
+                onClick={() => setOpenTags(true)}
+                className="p-2 hover:bg-slate-100 hover:dark:bg-gray-800 text-center"
+              >
+                Manage tags
+              </MenuItem>
+              <MenuItem
+                disabled
+                className="p-2 hover:bg-red-100 hover:dark:bg-red-300 text-center text-red-600"
+              >
+                Delete note
+              </MenuItem>
+            </>
+          )}
         </MenuList>
       </Menu>
       <Modal

@@ -7,15 +7,18 @@ import Mdx from "../../components/Mdx";
 import Button from "../../components/Button";
 import StickyNavbar from "../../components/StickyNavbar";
 import Loader from "../../components/Loader";
+import { Navigate } from "react-router";
 // import slugify from "react-slugify";
 // import shortid from "shortid";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
+import { useAuth } from "../../hooks/useAuth";
 const Edit = () => {
   const [content, setContent] = useState(null);
   const [note, setNote] = useState(null);
   const [title, setTitle] = useState();
   const [loading, setLoading] = useState(false);
   const { slug } = useParams();
+  const { user } = useAuth();
 
   useEffect(() => {
     const loadNote = async () => {
@@ -48,6 +51,8 @@ const Edit = () => {
       setLoading(false);
     } catch (err) {}
   };
+
+  if (!user) return <Navigate to={"/"} />;
 
   return (
     <div>
