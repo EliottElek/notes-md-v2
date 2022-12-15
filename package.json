@@ -16,7 +16,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
     "react-markdown": "^8.0.4",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-slugify": "^2.1.0",
     "react-tailwindcss-select": "^1.6.0",
     "rehype-highlight": "^6.0.0",
@@ -52,5 +52,8 @@
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.20",
     "react-router-dom": "^6.4.5"
+  },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
   }
 }
