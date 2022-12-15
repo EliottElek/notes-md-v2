@@ -60,7 +60,7 @@ const Note = () => {
   return (
     <>
       <StickyNavbar>
-        <div className="pb-4 flex w-full items-center justify-between ">
+        <div className="flex w-full items-center justify-between ">
           <div className="flex">
             <Link to="/">
               <Button defaultbtn={true}>
