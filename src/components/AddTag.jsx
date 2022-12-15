@@ -21,13 +21,15 @@ const AddTag = ({ setTagsList, tagsList }) => {
     }
   };
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1">
       <TextInput
         placeholder="New tag..."
         value={label}
         onChange={(e) => setLabel(e.target.value)}
       />
-      <Button onClick={addTag}>Add</Button>
+      <Button disabled={label === ""} onClick={addTag}>
+        Add
+      </Button>
     </div>
   );
 };

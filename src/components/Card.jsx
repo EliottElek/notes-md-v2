@@ -21,7 +21,10 @@ const Card = ({ note, tagsList, setTagsList }) => {
   const [selectedTags, setSelectedTags] = useState([]);
 
   useEffect(() => {
-    const t = note.notes_tags.map(({ tags }) => tags);
+    const t = note.notes_tags.map(({ tags }) => {
+      return { ...tags, value: tags.label };
+    });
+
     setSelectedTags(t);
     setTags(t);
     console.log(t);
