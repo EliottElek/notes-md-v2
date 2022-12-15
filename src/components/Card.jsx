@@ -24,7 +24,6 @@ const Card = ({ note, tagsList, setTagsList }) => {
     const t = note.notes_tags.map(({ tags }) => {
       return { ...tags, value: tags.label };
     });
-
     setSelectedTags(t);
     setTags(t);
     console.log(t);
