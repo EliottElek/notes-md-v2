@@ -39,13 +39,11 @@ export default function Home() {
   return (
     <div>
       <StickyNavbar>
-        <div className="pb-4">
-          <Link to="/new">
-            <Button defaultbtn={true}>
-              Add a new note <FiEdit />
-            </Button>
-          </Link>
-        </div>
+        <Link to="/new">
+          <Button defaultbtn={true}>
+            Add a new note <FiEdit />
+          </Button>
+        </Link>
       </StickyNavbar>
 
       {!notes ? (

@@ -27,7 +27,7 @@ const New = () => {
   return (
     <div>
       <StickyNavbar>
-        <div className="flex pb-4">
+        <div className="flex items-center">
           <Link to="/">
             <Button defaultbtn={true}>Cancel</Button>
           </Link>
