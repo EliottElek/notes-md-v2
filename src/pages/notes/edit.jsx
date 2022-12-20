@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Editor from "../../components/Editor";
 import { supabase } from "../../lib/supabase";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
-import Mdx from "../../components/Mdx";
 import Button from "../../components/Button";
 import StickyNavbar from "../../components/StickyNavbar";
 import Loader from "../../components/Loader";
@@ -12,6 +10,8 @@ import { Navigate } from "react-router";
 // import shortid from "shortid";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "../../hooks/useAuth";
+import MDEditor from "@uiw/react-md-editor";
+
 const Edit = () => {
   const [content, setContent] = useState(null);
   const [note, setNote] = useState(null);
@@ -90,11 +90,13 @@ const Edit = () => {
               />
             </div>
           </div>
-
-          <div className="mt-3">
-            <Editor content={content} setContent={setContent} />
-            <div className="w-full border-b my-3 dark:border-b-slate-600" />
-            <Mdx mdContent={content} />
+          <div className="flex h-[70vh] flex-col flex-grow">
+            <MDEditor
+              style={{ padding: 15 }}
+              height="100%"
+              value={content}
+              onChange={setContent}
+            />
           </div>
         </div>
       )}

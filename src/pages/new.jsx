@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import Editor from "../components/Editor";
 import { supabase } from "../lib/supabase";
 import slugify from "react-slugify";
 import { useNavigate, Link, Navigate } from "react-router-dom";
-import Mdx from "../components/Mdx";
 import Button from "../components/Button";
 import shortid from "shortid";
 import StickyNavbar from "../components/StickyNavbar";
 import { useAuth } from "../hooks/useAuth";
+import MDEditor from "@uiw/react-md-editor";
+
 const New = () => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
@@ -50,8 +50,9 @@ const New = () => {
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        <Editor content={content} setContent={setContent} />
-        <Mdx mdContent={content} />
+        <div className="flex h-[60vh] flex-col flex-grow">
+          <MDEditor height="100%" value={content} onChange={setContent} />
+        </div>
       </div>
     </div>
   );
