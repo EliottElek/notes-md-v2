@@ -17,7 +17,7 @@ const Edit = () => {
   const [note, setNote] = useState(null);
   const [title, setTitle] = useState();
   const [loading, setLoading] = useState(false);
-  const { slug } = useParams();
+  const { id, slug } = useParams();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const Edit = () => {
       <StickyNavbar>
         <div className="flex flex-col">
           <div className="flex items-center">
-            <Link to={`/notes/${note?.slug}`}>
+            <Link to={`/folders/${id}/notes/${note?.slug}`}>
               <Button defaultbtn={true}>
                 <ChevronLeftIcon className="h-4 w-4" />
                 Back

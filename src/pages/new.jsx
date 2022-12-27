@@ -7,24 +7,36 @@ import shortid from "shortid";
 import StickyNavbar from "../components/StickyNavbar";
 import { useAuth } from "../hooks/useAuth";
 import MDEditor from "@uiw/react-md-editor";
-
+import { useParams } from "react-router";
 const New = () => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { id } = useParams();
 
   const createNewPost = async () => {
     if (title === "") return;
     try {
       const slug = slugify(title) + shortid.generate();
-      await supabase.from("notes").insert({
-        markdown: content,
-        title: title,
-        slug: slug,
+      const { data } = await supabase
+        .from("notes")
+        .insert({
+          markdown: content,
+          title: title,
+          slug: slug,
+        })
+        .select("id, slug")
+        .single();
+      console.log(data);
+      await supabase.from("folders_notes").insert({
+        note_id: data.id,
+        folder_id: id,
       });
-      navigate("/notes/" + slug);
-    } catch (err) {}
+      navigate(`/folders/${id}/notes/${data.slug}`);
+    } catch (err) {
+      console.log(err);
+    }
   };
   if (!user) return <Navigate to={"/"} />;
 

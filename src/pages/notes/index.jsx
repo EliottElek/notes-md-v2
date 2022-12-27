@@ -13,18 +13,23 @@ import { useNavigate } from "react-router-dom";
 import StickyNavbar from "../../components/StickyNavbar";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import Breadcrumbs from "../../components/BreadCrumbs";
 
 const Note = () => {
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState(null);
   const [tags, setTags] = useState([]);
+  const [folder, setFolder] = useState(null);
+
   const { user } = useAuth();
 
-  const { slug } = useParams();
+  const { id, slug } = useParams();
   let navigate = useNavigate();
 
   const handleDeleteNote = async () => {
     try {
+      await supabase.from("notes_tags").delete().eq("note_id", note.id);
+      await supabase.from("folders_notes").delete().eq("note_id", note.id);
       await supabase.from("notes").delete().eq("id", note.id);
       setOpen(false);
       navigate("/");
@@ -39,9 +44,13 @@ const Note = () => {
       try {
         let { data } = await supabase
           .from("notes")
-          .select("slug, title, markdown, id, notes_tags(tags!inner(*))")
-          .eq("slug", slug);
-        setNote(data[0]);
+          .select(
+            "slug, title, markdown, id, notes_tags(tags!inner(*)), folders_notes(folders!inner(name, id))"
+          )
+          .eq("slug", slug)
+          .single();
+        setFolder(data?.folders_notes[0].folders);
+        setNote(data);
       } catch (err) {
         console.log(err);
       }
@@ -62,10 +71,10 @@ const Note = () => {
   return (
     <>
       <StickyNavbar>
-        <div className="flex w-full items-center justify-between ">
+        <div className="flex w-full items-center justify-between">
           {user && (
             <div className="flex">
-              <Link to="/">
+              <Link to={`/folders/${id}`}>
                 <Button defaultbtn={true}>
                   <ChevronLeftIcon className="h-4 w-4" />
                   Back
@@ -88,12 +97,26 @@ const Note = () => {
           </div>
         </div>
       </StickyNavbar>
+      <div className="md:px-12 px-6 mt-2">
+        <Breadcrumbs
+          links={[
+            {
+              label: folder?.name,
+              href: "/folders/" + folder?.id,
+            },
+            {
+              disabled: true,
+              label: note?.title,
+            },
+          ]}
+        />
+      </div>
       {!note ? (
         <div className="flex justify-center w-full h-[40vh] items-center ">
           <Loader />
         </div>
       ) : (
-        <div className="md:p-10 p-4 text-left">
+        <div className="md:p-10 p-4 text-left m-auto min-h-screen max-w-4xl dark:md:bg-gray-600 sm:md:bg-orange-50 my-4 rounded-lg shadow-sm">
           <div>
             <div className="flex mt-3 gap-1">
               {tags?.length !== 0 &&
@@ -110,11 +133,13 @@ const Note = () => {
         onValidate={handleDeleteNote}
         onCancel={() => setOpen(false)}
       >
-        <p className="text-lg text-slate-800 dark:text-gray-100">
+        <p className="text-lg text-gray-800 dark:text-gray-100">
           Are you sure you want to delete this note ?
         </p>
       </Modal>
-      <SpeedDial onDowload={exportToMd} onDelete={() => setOpen(true)} />
+      {user && (
+        <SpeedDial onDowload={exportToMd} onDelete={() => setOpen(true)} />
+      )}
     </>
   );
 };
