@@ -4,7 +4,6 @@ import Button from "../../components/Button";
 import Mdx from "../../components/Mdx";
 import Modal from "../../components/Modal";
 import Loader from "../../components/Loader";
-import Chip from "../../components/Chip";
 import SpeedDial from "../../components/SpeedDial";
 import { FiEdit } from "react-icons/fi";
 import { useParams } from "react-router";
