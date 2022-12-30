@@ -10,6 +10,7 @@ export default function Modal({
   title,
   children,
   displayOnly,
+  submitDisabled,
 }) {
   const cancelButtonRef = useRef(null);
 
@@ -67,7 +68,13 @@ export default function Modal({
                 </div>
                 {!displayOnly && (
                   <div className="dark:bg-gray-700 bg-gray-300 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t rounded-b-md dark:border-gray-600">
-                    <Button onClick={onValidate}>Validate</Button>
+                    <Button
+                      onClick={onValidate}
+                      className={submitDisabled && "!opacity-50"}
+                      disabled={submitDisabled}
+                    >
+                      Validate
+                    </Button>
                     <Button defaultbtn={true} onClick={onCancel}>
                       Cancel
                     </Button>

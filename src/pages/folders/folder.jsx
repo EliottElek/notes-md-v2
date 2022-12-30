@@ -19,7 +19,7 @@ const Folder = () => {
       try {
         const { data } = await supabase
           .from("folders")
-          .select("* ,folders_notes(notes!inner(*,notes_tags(tags!inner(*))))")
+          .select("* ,folders_notes(notes!inner(*))")
           .eq("id", id)
           .single();
         setFolder(data);

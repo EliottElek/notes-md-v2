@@ -18,7 +18,6 @@ import Breadcrumbs from "../../components/BreadCrumbs";
 const Note = () => {
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState(null);
-  const [tags, setTags] = useState([]);
   const [folder, setFolder] = useState(null);
 
   const { user } = useAuth();
@@ -28,24 +27,20 @@ const Note = () => {
 
   const handleDeleteNote = async () => {
     try {
-      await supabase.from("notes_tags").delete().eq("note_id", note.id);
       await supabase.from("folders_notes").delete().eq("note_id", note.id);
       await supabase.from("notes").delete().eq("id", note.id);
       setOpen(false);
       navigate("/");
     } catch (err) {}
   };
-  useEffect(() => {
-    const t = note?.notes_tags.map(({ tags }) => tags);
-    setTags(t);
-  }, [note]);
+
   useEffect(() => {
     const loadNote = async () => {
       try {
         let { data } = await supabase
           .from("notes")
           .select(
-            "slug, title, markdown, id, notes_tags(tags!inner(*)), folders_notes(folders!inner(name, id))"
+            "slug, title, markdown, id, folders_notes(folders!inner(name, id))"
           )
           .eq("slug", slug)
           .single();
@@ -116,14 +111,7 @@ const Note = () => {
           <Loader />
         </div>
       ) : (
-        <div className="md:p-10 p-4 text-left m-auto min-h-screen max-w-4xl dark:md:bg-gray-600 sm:md:bg-orange-50 my-4 rounded-lg shadow-sm">
-          <div>
-            <div className="flex mt-3 gap-1">
-              {tags?.length !== 0 &&
-                tags?.map((t) => <Chip color={t?.color}>{t?.label}</Chip>)}
-            </div>
-            <h1>{note?.title}</h1>
-          </div>
+        <div className="md:p-10 p-4 text-left m-auto min-h-screen max-w-4xl dark:md:bg-gray-600 sm:md:bg-gray-50 my-4 rounded-lg shadow-sm">
           <Mdx mdContent={note?.markdown} />
         </div>
       )}

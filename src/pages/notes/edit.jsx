@@ -10,8 +10,7 @@ import { Navigate } from "react-router";
 // import shortid from "shortid";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "../../hooks/useAuth";
-import MDEditor from "@uiw/react-md-editor";
-
+import Editor from "../../components/Editor";
 const Edit = () => {
   const [content, setContent] = useState(null);
   const [note, setNote] = useState(null);
@@ -19,6 +18,10 @@ const Edit = () => {
   const [loading, setLoading] = useState(false);
   const { id, slug } = useParams();
   const { user } = useAuth();
+
+  const handleEditorChange = ({ text }) => {
+    setContent(text);
+  };
 
   useEffect(() => {
     const loadNote = async () => {
@@ -91,11 +94,10 @@ const Edit = () => {
             </div>
           </div>
           <div className="flex h-[70vh] flex-col flex-grow">
-            <MDEditor
-              style={{ padding: 15 }}
-              height="100%"
+            <Editor
               value={content}
-              onChange={setContent}
+              onChange={handleEditorChange}
+              placeholder="Your content goes here..."
             />
           </div>
         </div>

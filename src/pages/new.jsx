@@ -6,7 +6,7 @@ import Button from "../components/Button";
 import shortid from "shortid";
 import StickyNavbar from "../components/StickyNavbar";
 import { useAuth } from "../hooks/useAuth";
-import MDEditor from "@uiw/react-md-editor";
+import Editor from "../components/Editor";
 import { useParams } from "react-router";
 const New = () => {
   const [content, setContent] = useState("");
@@ -14,7 +14,9 @@ const New = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { id } = useParams();
-
+  const handleEditorChange = ({ text }) => {
+    setContent(text);
+  };
   const createNewPost = async () => {
     if (title === "") return;
     try {
@@ -63,7 +65,11 @@ const New = () => {
           />
         </div>
         <div className="flex h-[60vh] flex-col flex-grow">
-          <MDEditor height="100%" value={content} onChange={setContent} />
+          <Editor
+            value={content}
+            onChange={handleEditorChange}
+            placeholder="Your content goes here..."
+          />
         </div>
       </div>
     </div>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import StickyNavbar from "../../components/StickyNavbar";
 import Button from "../../components/Button";
 import { useAuth } from "../../hooks/useAuth";
@@ -9,6 +8,7 @@ import Modal from "../../components/Modal";
 import TextInput from "../../components/TextInput";
 import RadioGroup from "../../components/RadioGroup";
 import slugify from "react-slugify";
+import Folder from "../../components/Folder";
 
 const plans = [
   {
@@ -40,6 +40,7 @@ const Folders = () => {
           .from("folders")
           .select("* ,folders_notes(notes!inner(count))");
         setFolders(data);
+        console.log("dfdfdfs");
       } catch (e) {
         console.log(e);
       }
@@ -82,30 +83,13 @@ const Folders = () => {
           </div>
         ) : (
           folders.map((folder) => (
-            <Link
-              to={"/folders/" + folder.id}
+            <Folder
+              setFolders={setFolders}
+              folders={folders}
               key={folder.id}
-              className="flex flex-col justify-center"
-            >
-              <div
-                className={`ffolder medium ${
-                  folder?.color ? folder?.color : "cyan"
-                } m-2`}
-              >
-                <span>{folder.folders_notes.length}</span>
-              </div>
-              <span className="text-center">{folder.name}</span>
-            </Link>
+              folder={folder}
+            />
           ))
-        )}
-
-        {user && (
-          <button
-            onClick={() => setOpen(true)}
-            className="ffolder medium pink m-2"
-          >
-            <span>New</span>
-          </button>
         )}
       </div>
       {user && (
@@ -119,6 +103,7 @@ const Folders = () => {
           <TextInput
             value={value}
             className="text-2xl"
+            placeHolder="Your folder's name..."
             onChange={(e) => setValue(e.target.value)}
           />
           <RadioGroup

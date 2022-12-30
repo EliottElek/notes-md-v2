@@ -4,6 +4,7 @@ import Note from "./pages/notes";
 import New from "./pages/new";
 import Edit from "./pages/notes/edit";
 import "highlight.js/styles/atom-one-dark.css";
+import "react-markdown-editor-lite/lib/index.css";
 import "./style/css/ffolders.css";
 import Login from "./pages/login";
 import Folders from "./pages/folders";
