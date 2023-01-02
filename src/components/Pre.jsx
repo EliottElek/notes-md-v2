@@ -32,10 +32,10 @@ const CopyToClipBoard = ({ textRef }) => {
       placement="left"
     >
       <button
-        className="text-slate-200 h-6 w-6 absolute top-2 right-2"
+        className="text-gray-200 h-6 w-6 absolute top-2 right-2"
         onClick={copyToClipBoard}
       >
-        <IoCopyOutline className="text-slate-200 h-5 w-5 opacity-30 hover:opacity-100 duration-75" />
+        <IoCopyOutline className="text-gray-200 h-5 w-5 opacity-30 hover:opacity-100 duration-75" />
       </button>
     </Tooltip>
   );

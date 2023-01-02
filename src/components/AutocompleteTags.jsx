@@ -4,7 +4,6 @@ const SelectComponent = ({ sources, selected, setSelected }) => {
   const handleChange = (value) => {
     setSelected(value);
   };
-  console.log(sources);
   return (
     <div className="my-2">
       <Select

@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from "react";
-import Editor from "../../components/Editor";
 import { supabase } from "../../lib/supabase";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
-import Mdx from "../../components/Mdx";
 import Button from "../../components/Button";
 import StickyNavbar from "../../components/StickyNavbar";
 import Loader from "../../components/Loader";
+import { Navigate } from "react-router";
 // import slugify from "react-slugify";
 // import shortid from "shortid";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
+import { useAuth } from "../../hooks/useAuth";
+import Editor from "../../components/Editor";
 const Edit = () => {
   const [content, setContent] = useState(null);
   const [note, setNote] = useState(null);
   const [title, setTitle] = useState();
   const [loading, setLoading] = useState(false);
-  const { slug } = useParams();
+  const { id, slug } = useParams();
+  const { user } = useAuth();
+
+  const handleEditorChange = ({ text }) => {
+    setContent(text);
+  };
 
   useEffect(() => {
     const loadNote = async () => {
@@ -49,12 +55,14 @@ const Edit = () => {
     } catch (err) {}
   };
 
+  if (!user) return <Navigate to={"/"} />;
+
   return (
     <div>
       <StickyNavbar>
         <div className="flex flex-col">
           <div className="flex items-center">
-            <Link to={`/notes/${note?.slug}`}>
+            <Link to={`/folders/${id}/notes/${note?.slug}`}>
               <Button defaultbtn={true}>
                 <ChevronLeftIcon className="h-4 w-4" />
                 Back
@@ -85,11 +93,12 @@ const Edit = () => {
               />
             </div>
           </div>
-
-          <div className="mt-3">
-            <Editor content={content} setContent={setContent} />
-            <div className="w-full border-b my-3 dark:border-b-slate-600" />
-            <Mdx mdContent={content} />
+          <div className="flex h-[70vh] flex-col flex-grow">
+            <Editor
+              value={content}
+              onChange={handleEditorChange}
+              placeholder="Your content goes here..."
+            />
           </div>
         </div>
       )}

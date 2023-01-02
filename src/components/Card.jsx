@@ -14,11 +14,13 @@ import {
 } from "@material-tailwind/react";
 import { supabase } from "../lib/supabase";
 import AddTag from "./AddTag";
+import { useAuth } from "../hooks/useAuth";
 const Card = ({ note, tagsList, setTagsList }) => {
   const [open, setOpen] = useState(false);
   const [tags, setTags] = useState([]);
   const [openTags, setOpenTags] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
+  const { user } = useAuth();
 
   useEffect(() => {
     const t = note.notes_tags.map(({ tags }) => {
@@ -26,7 +28,6 @@ const Card = ({ note, tagsList, setTagsList }) => {
     });
     setSelectedTags(t);
     setTags(t);
-    console.log(t);
   }, [note]);
 
   const exportToMd = () => {
@@ -56,7 +57,7 @@ const Card = ({ note, tagsList, setTagsList }) => {
     setOpenTags(false);
   };
   return (
-    <div className="relative p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-slate-800 dark:border-gray-700 text-left">
+    <div className="relative p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 text-left">
       <div className="flex mt-1 gap-1">
         {tags?.length !== 0 &&
           tags?.map((t) => <Chip color={t?.color}>{t?.label}</Chip>)}
@@ -104,7 +105,7 @@ const Card = ({ note, tagsList, setTagsList }) => {
         </p>
       </Modal>
       <Menu
-        className="dark:bg-slate-500"
+        className="dark:bg-gray-500"
         animate={{
           mount: { y: 0 },
           unmount: { y: 25 },
@@ -115,30 +116,34 @@ const Card = ({ note, tagsList, setTagsList }) => {
             <FiMoreHorizontal className="w-5 h-5" />
           </button>
         </MenuHandler>
-        <MenuList className="p-1 dark:bg-slate-700 dark:border-slate-600">
+        <MenuList className="p-1 dark:bg-gray-700 dark:border-gray-600">
           <MenuItem
             onClick={exportToMd}
-            className="p-2 hover:bg-slate-100 hover:dark:bg-gray-800 text-center"
+            className="p-2 hover:bg-gray-100 hover:dark:bg-gray-800 text-center"
           >
             Download markdown
           </MenuItem>
-          <Link to={`/notes/${note.slug}/edit`} className="w-full h-full">
-            <MenuItem className="p-2 hover:bg-slate-100 hover:dark:bg-gray-800 text-center">
-              Edit note
-            </MenuItem>
-          </Link>
-          <MenuItem
-            onClick={() => setOpenTags(true)}
-            className="p-2 hover:bg-slate-100 hover:dark:bg-gray-800 text-center"
-          >
-            Manage tags
-          </MenuItem>
-          <MenuItem
-            disabled
-            className="p-2 hover:bg-red-100 hover:dark:bg-red-300 text-center text-red-600"
-          >
-            Delete note
-          </MenuItem>
+          {user && (
+            <>
+              <Link to={`/notes/${note.slug}/edit`} className="w-full h-full">
+                <MenuItem className="p-2 hover:bg-gray-100 hover:dark:bg-gray-800 text-center">
+                  Edit note
+                </MenuItem>
+              </Link>
+              <MenuItem
+                onClick={() => setOpenTags(true)}
+                className="p-2 hover:bg-gray-100 hover:dark:bg-gray-800 text-center"
+              >
+                Manage tags
+              </MenuItem>
+              <MenuItem
+                disabled
+                className="p-2 hover:bg-red-100 hover:dark:bg-red-300 text-center text-red-600"
+              >
+                Delete note
+              </MenuItem>
+            </>
+          )}
         </MenuList>
       </Menu>
       <Modal
@@ -147,7 +152,7 @@ const Card = ({ note, tagsList, setTagsList }) => {
         onValidate={updateTags}
         onCancel={() => setOpenTags(false)}
       >
-        <p className="text-sm text-slate-800 dark:text-gray-100">
+        <p className="text-sm text-gray-800 dark:text-gray-100">
           Modify the tags on this note
         </p>
         <AutoCompleteTags
@@ -155,7 +160,7 @@ const Card = ({ note, tagsList, setTagsList }) => {
           selected={selectedTags}
           setSelected={setSelectedTags}
         />
-        <p className="text-sm text-slate-800 dark:text-gray-100">Add a tag</p>
+        <p className="text-sm text-gray-800 dark:text-gray-100">Add a tag</p>
         <AddTag setTagsList={setTagsList} tagsList={tagsList} />
       </Modal>
     </div>

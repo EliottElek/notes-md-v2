@@ -1,29 +1,47 @@
 import React, { useState } from "react";
-import Editor from "../components/Editor";
 import { supabase } from "../lib/supabase";
 import slugify from "react-slugify";
-import { useNavigate, Link } from "react-router-dom";
-import Mdx from "../components/Mdx";
+import { useNavigate, Link, Navigate } from "react-router-dom";
 import Button from "../components/Button";
 import shortid from "shortid";
 import StickyNavbar from "../components/StickyNavbar";
+import { useAuth } from "../hooks/useAuth";
+import Editor from "../components/Editor";
+import { useParams } from "react-router";
 const New = () => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const navigate = useNavigate();
-
+  const { user } = useAuth();
+  const { id } = useParams();
+  const handleEditorChange = ({ text }) => {
+    setContent(text);
+  };
   const createNewPost = async () => {
     if (title === "") return;
     try {
       const slug = slugify(title) + shortid.generate();
-      await supabase.from("notes").insert({
-        markdown: content,
-        title: title,
-        slug: slug,
+      const { data } = await supabase
+        .from("notes")
+        .insert({
+          markdown: content,
+          title: title,
+          slug: slug,
+        })
+        .select("id, slug")
+        .single();
+      console.log(data);
+      await supabase.from("folders_notes").insert({
+        note_id: data.id,
+        folder_id: id,
       });
-      navigate("/notes/" + slug);
-    } catch (err) {}
+      navigate(`/folders/${id}/notes/${data.slug}`);
+    } catch (err) {
+      console.log(err);
+    }
   };
+  if (!user) return <Navigate to={"/"} />;
+
   return (
     <div>
       <StickyNavbar>
@@ -46,8 +64,13 @@ const New = () => {
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        <Editor content={content} setContent={setContent} />
-        <Mdx mdContent={content} />
+        <div className="flex h-[60vh] flex-col flex-grow">
+          <Editor
+            value={content}
+            onChange={handleEditorChange}
+            placeholder="Your content goes here..."
+          />
+        </div>
       </div>
     </div>
   );
