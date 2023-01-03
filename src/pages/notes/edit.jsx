@@ -6,8 +6,7 @@ import Button from "../../components/Button";
 import StickyNavbar from "../../components/StickyNavbar";
 import Loader from "../../components/Loader";
 import { Navigate } from "react-router";
-// import slugify from "react-slugify";
-// import shortid from "shortid";
+import { toast } from "react-hot-toast";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "../../hooks/useAuth";
 import Editor from "../../components/Editor";
@@ -43,6 +42,7 @@ const Edit = () => {
 
   const saveNewPost = async () => {
     setLoading(true);
+
     try {
       await supabase
         .from("notes")
@@ -52,6 +52,7 @@ const Edit = () => {
         })
         .eq("id", note.id);
       setLoading(false);
+      toast.success("Note was successfully saved.");
     } catch (err) {}
   };
 

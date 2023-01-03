@@ -6,13 +6,14 @@ import Edit from "./pages/notes/edit";
 import "highlight.js/styles/atom-one-dark.css";
 import "react-markdown-editor-lite/lib/index.css";
 import "./style/css/ffolders.css";
-import Login from "./pages/login";
+import Login from "./components/Login";
 import Folders from "./pages/folders";
 import Folder from "./pages/folders/folder";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App w-full h-full">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Folders />} />
@@ -25,6 +26,7 @@ function App() {
           <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
+      <Toaster />
     </div>
   );
 }

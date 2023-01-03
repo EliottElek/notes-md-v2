@@ -19,7 +19,7 @@ const CopyToClipBoard = ({ textRef }) => {
         mount: { scale: 1, y: 0.7 },
         unmount: { scale: 0, y: 0 },
       }}
-      className="bg-gray-700"
+      className="bg-blue-gray-700"
       content={
         copied ? (
           <span className="flex gap-1">
@@ -32,10 +32,10 @@ const CopyToClipBoard = ({ textRef }) => {
       placement="left"
     >
       <button
-        className="text-gray-200 h-6 w-6 absolute top-2 right-2"
+        className="text-blue-gray-200 h-6 w-6 absolute top-2 right-2"
         onClick={copyToClipBoard}
       >
-        <IoCopyOutline className="text-gray-200 h-5 w-5 opacity-30 hover:opacity-100 duration-75" />
+        <IoCopyOutline className="text-blue-gray-200 h-5 w-5 opacity-30 hover:opacity-100 duration-75" />
       </button>
     </Tooltip>
   );

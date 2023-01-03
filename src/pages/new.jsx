@@ -8,6 +8,7 @@ import StickyNavbar from "../components/StickyNavbar";
 import { useAuth } from "../hooks/useAuth";
 import Editor from "../components/Editor";
 import { useParams } from "react-router";
+import { toast } from "react-hot-toast";
 const New = () => {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
@@ -18,7 +19,13 @@ const New = () => {
     setContent(text);
   };
   const createNewPost = async () => {
-    if (title === "") return;
+    if (title === "") {
+      toast.error("You forgot to put a title.", {
+        duration: 2000,
+        position: "top-center",
+      });
+      return;
+    }
     try {
       const slug = slugify(title) + shortid.generate();
       const { data } = await supabase
@@ -30,11 +37,12 @@ const New = () => {
         })
         .select("id, slug")
         .single();
-      console.log(data);
       await supabase.from("folders_notes").insert({
         note_id: data.id,
         folder_id: id,
       });
+      toast.success("Note successfully created !");
+
       navigate(`/folders/${id}/notes/${data.slug}`);
     } catch (err) {
       console.log(err);

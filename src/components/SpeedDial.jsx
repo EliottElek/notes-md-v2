@@ -14,7 +14,7 @@ const SpeedDial = ({ onDelete, onDowload }) => {
           type="button"
           data-tooltip-target="tooltip-share"
           data-tooltip-placement="left"
-          className="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-sm dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400"
+          className="flex justify-center items-center w-[52px] h-[52px] text-blue-gray-500 hover:text-blue-gray-900 bg-white rounded-full border border-blue-gray-200 dark:border-blue-gray-600 shadow-sm dark:hover:text-white dark:text-blue-gray-400 hover:bg-blue-gray-50 dark:bg-blue-gray-700 dark:hover:bg-blue-gray-600 focus:ring-4 focus:ring-blue-gray-300 focus:outline-none dark:focus:ring-blue-gray-400"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +36,7 @@ const SpeedDial = ({ onDelete, onDowload }) => {
         <div
           id="tooltip-share"
           role="tooltip"
-          className="inline-block absolute invisible z-10 py-2 px-3 w-auto text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700"
+          className="inline-block absolute invisible z-10 py-2 px-3 w-auto text-sm font-medium text-white bg-blue-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-blue-gray-700"
         >
           Edit
           <div className="tooltip-arrow" data-popper-arrow></div>
@@ -46,7 +46,7 @@ const SpeedDial = ({ onDelete, onDowload }) => {
           type="button"
           data-tooltip-target="tooltip-print"
           data-tooltip-placement="left"
-          className="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-sm dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400"
+          className="flex justify-center items-center w-[52px] h-[52px] text-blue-gray-500 hover:text-blue-gray-900 bg-white rounded-full border border-blue-gray-200 dark:border-blue-gray-600 shadow-sm dark:hover:text-white dark:text-blue-gray-400 hover:bg-blue-gray-50 dark:bg-blue-gray-700 dark:hover:bg-blue-gray-600 focus:ring-4 focus:ring-blue-gray-300 focus:outline-none dark:focus:ring-blue-gray-400"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +68,7 @@ const SpeedDial = ({ onDelete, onDowload }) => {
         <div
           id="tooltip-print"
           role="tooltip"
-          className="inline-block absolute invisible z-10 py-2 px-3 w-auto text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700"
+          className="inline-block absolute invisible z-10 py-2 px-3 w-auto text-sm font-medium text-white bg-blue-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-blue-gray-700"
         >
           Delete
           <div className="tooltip-arrow" data-popper-arrow></div>
@@ -78,7 +78,7 @@ const SpeedDial = ({ onDelete, onDowload }) => {
           type="button"
           data-tooltip-target="tooltip-download"
           data-tooltip-placement="left"
-          className="flex justify-center items-center w-[52px] h-[52px] text-gray-500 hover:text-gray-900 bg-white rounded-full border border-gray-200 dark:border-gray-600 shadow-sm dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400"
+          className="flex justify-center items-center w-[52px] h-[52px] text-blue-gray-500 hover:text-blue-gray-900 bg-white rounded-full border border-blue-gray-200 dark:border-blue-gray-600 shadow-sm dark:hover:text-white dark:text-blue-gray-400 hover:bg-blue-gray-50 dark:bg-blue-gray-700 dark:hover:bg-blue-gray-600 focus:ring-4 focus:ring-blue-gray-300 focus:outline-none dark:focus:ring-blue-gray-400"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +100,7 @@ const SpeedDial = ({ onDelete, onDowload }) => {
         <div
           id="tooltip-download"
           role="tooltip"
-          className="inline-block absolute invisible z-10 py-2 px-3 w-auto text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700"
+          className="inline-block absolute invisible z-10 py-2 px-3 w-auto text-sm font-medium text-white bg-blue-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-blue-gray-700"
         >
           Download as markdown
           <div className="tooltip-arrow" data-popper-arrow></div>

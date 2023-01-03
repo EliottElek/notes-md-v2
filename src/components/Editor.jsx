@@ -3,6 +3,7 @@ import MdEditor from "react-markdown-editor-lite";
 import MarkdownIt from "markdown-it";
 import { supabase } from "../lib/supabase";
 import cuid from "cuid";
+
 const mdParser = new MarkdownIt();
 
 function onImageUpload(file) {

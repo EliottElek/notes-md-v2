@@ -173,19 +173,19 @@
   color: #54c170;
 }
 
-.ffolder.gray {
+.ffolder.blue-gray {
   background-color: #829aa8;
 }
-.ffolder.gray:before,
-.ffolder.gray span {
+.ffolder.blue-gray:before,
+.ffolder.blue-gray span {
   background-color: #687f8c;
 }
-.ffolder.gray:after {
+.ffolder.blue-gray:after {
   border-bottom-color: #687f8c;
 }
-.ffolder.gray span {
+.ffolder.blue-gray span {
   background-color: transparent;
 }
-.ffolder.gray i {
+.ffolder.blue-gray i {
   color: #687f8c;
 }

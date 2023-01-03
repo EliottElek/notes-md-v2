@@ -3,7 +3,7 @@
 @tailwind utilities;
 html,
 body {
-  @apply dark:bg-gray-700 dark:text-gray-100 bg-gray-200 min-h-screen;
+  @apply dark:bg-blue-gray-700 dark:text-blue-gray-100 bg-gray-200 min-h-screen;
 
   padding: 0;
   margin: 0;
@@ -11,7 +11,7 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 .App {
-  @apply bg-transparent;
+  @apply dark:bg-blue-gray-700 dark:text-blue-gray-100 bg-gray-200 min-h-screen;
 }
 
 a {
@@ -70,7 +70,7 @@ ul {
   list-style: disc;
 }
 code {
-  @apply bg-gray-300 dark:bg-gray-800 rounded-md px-1;
+  @apply bg-gray-300 dark:bg-blue-gray-800 rounded-md px-1;
 }
 blockquote {
   @apply border-l-4 pl-2 mt-2;
@@ -91,27 +91,30 @@ hr {
 .mini_mdx blockquote {
   @apply border-l pl-1 mt-1;
 }
+.mini_mdx pre * {
+  @apply p-0 m-0 rounded-md;
+}
 /* .mini_mdx img {
   @apply scale-50;
 } */
 .mini_mdx {
   @apply m-auto;
-  @apply rounded-md p-4 m-4 md:text-[0.3rem] text-[0.5rem] overflow-hidden bg-gray-50 dark:bg-gray-600 shadow-sm sm:h-[310px] h-[70vh];
+  @apply rounded-md p-4 m-4 md:text-[0.3rem] text-[0.5rem] overflow-hidden bg-gray-50 dark:bg-blue-gray-600 shadow-sm sm:h-[310px] h-[70vh];
 }
 .rc-md-editor div {
-  @apply dark:bg-gray-700 dark:!text-gray-50;
+  @apply dark:bg-blue-gray-700 dark:!text-blue-gray-50;
 }
 .rc-md-editor * {
-  @apply border-gray-300;
+  @apply border-blue-gray-300;
 }
 .rc-md-editor > div > div {
-  @apply dark:bg-gray-700;
+  @apply dark:bg-blue-gray-700;
 }
 .rc-md-editor {
-  @apply dark:!border-gray-400;
+  @apply dark:!border-blue-gray-400;
 }
 .section-container {
-  @apply dark:!bg-gray-700 dark:!text-gray-50 dark:fill-gray-50 focus:!outline-none focus:!border-none;
+  @apply dark:!bg-blue-gray-700 dark:!text-blue-gray-50 dark:fill-blue-gray-50 focus:!outline-none focus:!border-none;
 }
 
 .wrapper {
@@ -205,4 +208,84 @@ hr {
 
 .customContextmenuArea3ListItem:hover {
   background-color: powderblue;
+}
+.react-contextmenu {
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+  color: #373a3c;
+  font-size: 16px;
+  margin: 2px 0 0;
+  min-width: 160px;
+  outline: none;
+  opacity: 0;
+  padding: 5px 0;
+  pointer-events: none;
+  text-align: left;
+  transition: opacity 250ms ease !important;
+}
+
+.react-contextmenu.react-contextmenu--visible {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 9999;
+}
+
+.react-contextmenu-item {
+  background: 0 0;
+  border: 0;
+  color: #373a3c;
+  cursor: pointer;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: 3px 20px;
+  text-align: inherit;
+  white-space: nowrap;
+}
+
+.react-contextmenu-item.react-contextmenu-item--active,
+.react-contextmenu-item.react-contextmenu-item--selected {
+  color: #fff;
+  background-color: #20a0ff;
+  border-color: #20a0ff;
+  text-decoration: none;
+}
+
+.react-contextmenu-item.react-contextmenu-item--disabled,
+.react-contextmenu-item.react-contextmenu-item--disabled:hover {
+  background-color: transparent;
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #878a8c;
+}
+
+.react-contextmenu-item--divider {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  cursor: inherit;
+  margin-bottom: 3px;
+  padding: 2px 0;
+}
+.react-contextmenu-item--divider:hover {
+  background-color: transparent;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.react-contextmenu-item.react-contextmenu-submenu {
+  padding: 0;
+}
+
+.react-contextmenu-item.react-contextmenu-submenu > .react-contextmenu-item {
+}
+
+.react-contextmenu-item.react-contextmenu-submenu
+  > .react-contextmenu-item:after {
+  content: "▶";
+  display: inline-block;
+  position: absolute;
+  right: 7px;
+}
+
+.example-multiple-targets::after {
+  content: attr(data-count);
+  display: block;
 }
