@@ -57,15 +57,15 @@ const Card = ({ note, tagsList, setTagsList }) => {
     setOpenTags(false);
   };
   return (
-    <div className="relative p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 text-left">
+    <div className="relative p-6 bg-white border border-blue-gray-200 rounded-lg shadow-md dark:bg-blue-gray-800 dark:border-blue-gray-700 text-left">
       <div className="flex mt-1 gap-1">
         {tags?.length !== 0 &&
           tags?.map((t) => <Chip color={t?.color}>{t?.label}</Chip>)}
       </div>
-      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white truncate">
+      <h5 className="mb-2 text-2xl font-bold tracking-tight text-blue-gray-900 dark:text-white truncate">
         {note.title}
       </h5>
-      <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 truncate">
+      <p className="mb-3 font-normal text-blue-gray-700 dark:text-blue-gray-400 truncate">
         {note.markdown}
       </p>
       <div className="flex items-center gap-2">
@@ -100,39 +100,39 @@ const Card = ({ note, tagsList, setTagsList }) => {
           {tags?.length !== 0 &&
             tags?.map((t) => <Chip color={t?.color}>{t?.label}</Chip>)}
         </div>
-        <p className="dark:text-gray-200 w-full">
+        <p className="dark:text-blue-gray-200 w-full">
           <Mdx mdContent={note?.markdown} />
         </p>
       </Modal>
       <Menu
-        className="dark:bg-gray-500"
+        className="dark:bg-blue-gray-500"
         animate={{
           mount: { y: 0 },
           unmount: { y: 25 },
         }}
       >
         <MenuHandler>
-          <button className="absolute top-1 text-gray-500 right-1 hover:outline p-1 rounded-md">
+          <button className="absolute top-1 text-blue-gray-500 right-1 hover:outline p-1 rounded-md">
             <FiMoreHorizontal className="w-5 h-5" />
           </button>
         </MenuHandler>
-        <MenuList className="p-1 dark:bg-gray-700 dark:border-gray-600">
+        <MenuList className="p-1 dark:bg-blue-gray-700 dark:border-blue-gray-600">
           <MenuItem
             onClick={exportToMd}
-            className="p-2 hover:bg-gray-100 hover:dark:bg-gray-800 text-center"
+            className="p-2 hover:bg-blue-gray-100 hover:dark:bg-blue-gray-800 text-center"
           >
             Download markdown
           </MenuItem>
           {user && (
             <>
               <Link to={`/notes/${note.slug}/edit`} className="w-full h-full">
-                <MenuItem className="p-2 hover:bg-gray-100 hover:dark:bg-gray-800 text-center">
+                <MenuItem className="p-2 hover:bg-blue-gray-100 hover:dark:bg-blue-gray-800 text-center">
                   Edit note
                 </MenuItem>
               </Link>
               <MenuItem
                 onClick={() => setOpenTags(true)}
-                className="p-2 hover:bg-gray-100 hover:dark:bg-gray-800 text-center"
+                className="p-2 hover:bg-blue-gray-100 hover:dark:bg-blue-gray-800 text-center"
               >
                 Manage tags
               </MenuItem>
@@ -152,7 +152,7 @@ const Card = ({ note, tagsList, setTagsList }) => {
         onValidate={updateTags}
         onCancel={() => setOpenTags(false)}
       >
-        <p className="text-sm text-gray-800 dark:text-gray-100">
+        <p className="text-sm text-blue-gray-800 dark:text-blue-gray-100">
           Modify the tags on this note
         </p>
         <AutoCompleteTags
@@ -160,7 +160,7 @@ const Card = ({ note, tagsList, setTagsList }) => {
           selected={selectedTags}
           setSelected={setSelectedTags}
         />
-        <p className="text-sm text-gray-800 dark:text-gray-100">Add a tag</p>
+        <p className="text-sm text-blue-gray-800 dark:text-blue-gray-100">Add a tag</p>
         <AddTag setTagsList={setTagsList} tagsList={tagsList} />
       </Modal>
     </div>

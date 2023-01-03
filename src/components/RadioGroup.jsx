@@ -35,7 +35,7 @@ export default function Example({ selected, setSelected, plans }) {
                           <RadioGroup.Label
                             as="p"
                             className={`font-medium  ${
-                              checked ? "text-white" : "text-gray-900"
+                              checked ? "text-white" : "text-blue-gray-900"
                             }`}
                           >
                             {plan.name}

@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../components/Button";
+import Button from "./Button";
 import { supabase } from "../lib/supabase";
 const Login = () => {
   const getURL = () => {
@@ -26,11 +26,7 @@ const Login = () => {
     }
   };
 
-  return (
-    <div className="flex items-center justify-center h-screen">
-      <Button onClick={handleLogin}>Login with github</Button>
-    </div>
-  );
+  return <Button onClick={handleLogin}>Login with github</Button>;
 };
 
 export default Login;

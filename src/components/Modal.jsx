@@ -39,11 +39,11 @@ export default function Modal({
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
-              enterFrom="opacity-0 trangray-y-4 sm:trangray-y-0 sm:scale-95"
-              enterTo="opacity-100 trangray-y-0 sm:scale-100"
+              enterFrom="opacity-0 tranblue-gray-y-4 sm:tranblue-gray-y-0 sm:scale-95"
+              enterTo="opacity-100 tranblue-gray-y-0 sm:scale-100"
               leave="ease-in duration-200"
-              leaveFrom="opacity-100 trangray-y-0 sm:scale-100"
-              leaveTo="opacity-0 trangray-y-4 sm:trangray-y-0 sm:scale-95"
+              leaveFrom="opacity-100 tranblue-gray-y-0 sm:scale-100"
+              leaveTo="opacity-0 tranblue-gray-y-4 sm:tranblue-gray-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform text-left shadow-xl transition-all max-w-[90%] sm:my-8 sm:w-full sm:max-w-lg">
                 <div

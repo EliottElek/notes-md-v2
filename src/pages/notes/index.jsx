@@ -65,7 +65,7 @@ const Note = () => {
   return (
     <>
       <StickyNavbar>
-        <div className="flex w-full items-center justify-between">
+        <div className="w-full items-center justify-between  hidden md:flex">
           {user && (
             <div className="flex">
               <Link to={`/folders/${id}`}>
@@ -110,7 +110,7 @@ const Note = () => {
           <Loader />
         </div>
       ) : (
-        <div className="md:p-10 p-4 text-left m-auto min-h-screen max-w-4xl dark:md:bg-gray-600 sm:md:bg-gray-50 my-4 rounded-lg shadow-sm">
+        <div className="md:p-10 p-4 text-left m-auto min-h-screen max-w-4xl dark:md:bg-blue-gray-600 sm:md:bg-gray-50 my-4 rounded-lg shadow-sm">
           <Mdx mdContent={note?.markdown} />
         </div>
       )}
@@ -120,7 +120,7 @@ const Note = () => {
         onValidate={handleDeleteNote}
         onCancel={() => setOpen(false)}
       >
-        <p className="text-lg text-gray-800 dark:text-gray-100">
+        <p className="text-lg text-blue-gray-800 dark:text-blue-gray-100">
           Are you sure you want to delete this note ?
         </p>
       </Modal>

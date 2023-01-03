@@ -58,6 +58,13 @@ const Folder = () => {
           {folder?.folders_notes?.map(({ notes: note }) => (
             <Note key={note.id} note={note} />
           ))}
+          {folder?.folders_notes.length === 0 && (
+            <Link to="new">
+              <div className="rounded-md p-4 m-4 flex items-center justify-center overflow-hidden bg-gray-50 dark:bg-blue-gray-600 shadow-sm sm:h-[310px] h-[70vh]">
+                New note
+              </div>
+            </Link>
+          )}
         </main>
       )}
     </div>

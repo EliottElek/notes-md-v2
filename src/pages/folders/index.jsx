@@ -9,7 +9,9 @@ import TextInput from "../../components/TextInput";
 import RadioGroup from "../../components/RadioGroup";
 import slugify from "react-slugify";
 import Folder from "../../components/Folder";
-
+import { toast } from "react-hot-toast";
+import ContextMenu from "../../components/ContextMenu";
+import { MenuItem } from "react-contextmenu";
 const plans = [
   {
     name: "Cyan (default)",
@@ -51,7 +53,6 @@ const Folders = () => {
   const handleNewFolder = async () => {
     try {
       const slug = slugify(value);
-
       const { data } = await supabase
         .from("folders")
         .insert({
@@ -63,12 +64,23 @@ const Folders = () => {
         .single();
       setFolders([...folders, data]);
       setOpen(false);
+      toast.success("Folder '" + value + "' successfully created !");
     } catch (e) {
       console.log(e);
+      toast.error("An error occured trying to create a new folder.");
     }
   };
   return (
-    <div>
+    <ContextMenu
+      items={
+        <MenuItem
+          onClick={() => setOpen(true)}
+          class="flex hover:bg-blue-gray-100 py-1 px-2 rounded gap-2"
+        >
+          <div>New folder</div>
+        </MenuItem>
+      }
+    >
       <StickyNavbar>
         {user && (
           <Button onClick={() => setOpen(true)} defaultbtn={true}>
@@ -78,7 +90,7 @@ const Folders = () => {
       </StickyNavbar>
       <div className="folder__grid">
         {!folders ? (
-          <div className="flex justify-center mt-10 items-center">
+          <div className="flex justify-center mt-10 items-center w-screen">
             <Loader />
           </div>
         ) : (
@@ -113,7 +125,7 @@ const Folders = () => {
           />
         </Modal>
       )}
-    </div>
+    </ContextMenu>
   );
 };
 
