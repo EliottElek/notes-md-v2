@@ -20,7 +20,8 @@ import { Tooltip } from "@material-tailwind/react";
 export default function Layout({ children, data }) {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const { tabs, setTabs, setOpenNewFolder } = useContext(Context);
+  const { tabs, setTabs, setOpenNewFolder, setOpenSettingsModal } =
+    useContext(Context);
   const { slug } = useParams();
   const [colorTheme, setTheme] = useDarkMode();
 
@@ -43,7 +44,7 @@ export default function Layout({ children, data }) {
         <div
           className={`flex ${
             sidebarOpen ? "w-64" : "w-12"
-          } flex-col duration-300 fixed inset-y-0 border-r dark:border-gray-800 border-gray-300`}
+          } flex-col duration-300 z-20 fixed inset-y-0 border-r dark:border-gray-800 border-gray-300`}
         >
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex-1 flex flex-col min-h-0 bg-gray-200 dark:bg-blue-gray-900">
@@ -184,7 +185,7 @@ export default function Layout({ children, data }) {
                   }}
                 >
                   <button
-                    onClick={() => navigate("/")}
+                    onClick={() => setOpenSettingsModal(true)}
                     className="hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md p-1"
                   >
                     <Cog8ToothIcon className="h-5 w-5 text-gray-700 dark:text-gray-200" />

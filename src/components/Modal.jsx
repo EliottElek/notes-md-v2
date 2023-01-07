@@ -11,6 +11,7 @@ export default function Modal({
   children,
   displayOnly,
   submitDisabled,
+  className,
 }) {
   const cancelButtonRef = useRef(null);
 
@@ -18,7 +19,7 @@ export default function Modal({
     <Transition.Root show={open} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-20"
         initialFocus={cancelButtonRef}
         onClose={setOpen}
       >
@@ -35,7 +36,7 @@ export default function Modal({
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex min-h-full justify-center p-4 text-center items-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -45,10 +46,15 @@ export default function Modal({
               leaveFrom="opacity-100 tranblue-gray-y-0 sm:scale-100"
               leaveTo="opacity-0 tranblue-gray-y-4 sm:tranblue-gray-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform text-left shadow-xl transition-all max-w-[90%] sm:my-8 sm:w-full sm:max-w-lg">
+              <Dialog.Panel
+                className={[
+                  "relative transform text-left shadow-xl transition-all max-w-[90%] sm:my-8 sm:w-full sm:max-w-lg",
+                  className,
+                ].join(" ")}
+              >
                 <div
                   className={[
-                    "bg-gray-200 dark:bg-gray-700 rounded-t-md px-4 pt-5 pb-4 sm:p-6 sm:pb-4",
+                    "bg-gray-200 dark:bg-blue-gray-700 rounded-t-md px-4 pt-5 pb-4 sm:p-6 sm:pb-4",
                     displayOnly && "rounded-b-md",
                   ].join(" ")}
                 >
@@ -67,7 +73,7 @@ export default function Modal({
                   </div>
                 </div>
                 {!displayOnly && (
-                  <div className="dark:bg-gray-700 bg-gray-300 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t rounded-b-md dark:border-gray-600">
+                  <div className="dark:bg-blue-gray-700 bg-gray-300 px-4 py-3 flex flex-row-reverse sm:px-6 border-t rounded-b-md dark:border-blue-gray-600">
                     <Button
                       onClick={onValidate}
                       className={submitDisabled && "!opacity-50"}

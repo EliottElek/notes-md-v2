@@ -71,7 +71,7 @@ const Note = () => {
             </div>
             <div className="flex dark:bg-blue-gray-700 bg-gray-50 justify-end w-full md:w-auto md:absolute right-4 items-center">
               <Tooltip
-                placement="center"
+                placement="left"
                 content="Edit note"
                 animate={{
                   mount: { scale: 1, y: 0 },
@@ -85,7 +85,6 @@ const Note = () => {
                   <PencilSquareIcon className="h-5 w-5 text-gray-700 dark:text-gray-200" />
                 </Link>
               </Tooltip>
-
               <Menu>
                 <MenuHandler>
                   <button className="hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md p-1">

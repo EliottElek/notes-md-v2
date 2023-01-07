@@ -7,6 +7,7 @@ import RadioGroup from "./RadioGroup";
 import slugify from "react-slugify";
 import toast from "react-hot-toast";
 import { useAuth } from "../hooks/useAuth";
+import SettingsModal from "./SettingsModal";
 const Context = createContext();
 
 const plans = [
@@ -34,6 +35,7 @@ export function ContextProvider({ children }) {
   const [openDeleteNote, setOpenDeleteNote] = useState(false);
   const [value, setValue] = useState("");
   const [selected, setSelected] = useState(plans[0]);
+  const [openSettingsModal, setOpenSettingsModal] = useState(false);
 
   const exportToMd = (note) => {
     const fileData = note.markdown;
@@ -129,6 +131,7 @@ export function ContextProvider({ children }) {
         setOpenNewFolder,
         setOpenDeleteNote,
         openDeleteNote,
+        setOpenSettingsModal,
       }}
     >
       {children}
@@ -153,6 +156,7 @@ export function ContextProvider({ children }) {
           />
         </Modal>
       )}
+      <SettingsModal open={openSettingsModal} setOpen={setOpenSettingsModal} />
     </Context.Provider>
   );
 }
