@@ -9,7 +9,6 @@ import {
   TabPanel,
 } from "@material-tailwind/react";
 import { useAuth } from "../hooks/useAuth";
-import { Link } from "react-router-dom";
 
 const SettingsModal = ({ open, setOpen }) => {
   const { user } = useAuth();
