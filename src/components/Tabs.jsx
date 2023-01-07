@@ -41,7 +41,7 @@ export const Tab = ({ tab }) => {
         {tab?.title}
       </Link>
       <Tooltip
-        placement="center"
+        placement="bottom"
         content="Close"
         animate={{
           mount: { scale: 1, y: 0 },
