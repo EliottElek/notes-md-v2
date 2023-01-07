@@ -128,6 +128,7 @@ export function ContextProvider({ children }) {
         exportToMd,
         setOpenNewFolder,
         setOpenDeleteNote,
+        openDeleteNote,
       }}
     >
       {children}

@@ -1,9 +1,6 @@
 import React from "react";
-import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 const SpeedDial = ({ onDelete, onDowload }) => {
-  const { slug } = useParams();
-
   return (
     <div data-dial-init className="fixed right-6 bottom-6 group">
       <div
