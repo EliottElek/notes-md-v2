@@ -24,7 +24,7 @@ const Note = () => {
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState(null);
   const { user } = useAuth();
-  const { id, slug } = useParams();
+  const { slug } = useParams();
   let navigate = useNavigate();
 
   const handleDeleteNote = async () => {
