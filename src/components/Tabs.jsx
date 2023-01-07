@@ -11,16 +11,15 @@ export const Tab = ({ tab }) => {
     const tabFoundIntex = tabs.findIndex((tb) => tb.id === tab.id);
     if (tabFoundIntex === -1) return;
     const copy = [...tabs];
-
     copy.splice(tabFoundIntex, 1);
     setTabs([...copy]);
-
     if (copy.length === 0) {
       navigate("/");
     }
     if (slug === tab.slug) {
       const index =
         tabFoundIntex - 1 < 0 ? tabFoundIntex + 1 : tabFoundIntex - 1;
+      if (!tabs[index].slug) navigate("/");
       navigate("/notes/" + tabs[index]?.slug);
     }
   };
