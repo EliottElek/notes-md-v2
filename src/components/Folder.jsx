@@ -91,7 +91,6 @@ const Folder = ({ folder, setFolders, folders }) => {
               folder?.color ? folder?.color : "cyan"
             } m-2`}
           >
-            <span>{folder.folders_notes.length}</span>
           </div>
           <span className="text-center">{folder.name}</span>
         </Link>

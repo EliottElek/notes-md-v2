@@ -1,130 +1,47 @@
-import React, { useEffect, useState } from "react";
-import StickyNavbar from "../../components/StickyNavbar";
-import Button from "../../components/Button";
-import { useAuth } from "../../hooks/useAuth";
-import { supabase } from "../../lib/supabase";
+import React, { useContext } from "react";
+import Context from "../../components/Context";
 import Loader from "../../components/Loader";
-import Modal from "../../components/Modal";
-import TextInput from "../../components/TextInput";
-import RadioGroup from "../../components/RadioGroup";
-import slugify from "react-slugify";
+
 import Folder from "../../components/Folder";
-import { toast } from "react-hot-toast";
 import ContextMenu from "../../components/ContextMenu";
 import { MenuItem } from "react-contextmenu";
-const plans = [
-  {
-    name: "Cyan (default)",
-    color: "cyan",
-    checked: true,
-  },
-  {
-    name: "Pink",
-    color: "pink",
-  },
-  {
-    name: "Yellow",
-    color: "yellow",
-  },
-];
+import Note from "../../components/Note";
 
 const Folders = () => {
-  const { user } = useAuth();
-  const [folders, setFolders] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
-  const [selected, setSelected] = useState(plans[0]);
+  const { folders, setFolders, setOpenNewFolder } = useContext(Context);
 
-  useEffect(() => {
-    const loadFolders = async () => {
-      try {
-        const { data } = await supabase
-          .from("folders")
-          .select("* ,folders_notes(notes!inner(count))");
-        setFolders(data);
-        console.log("dfdfdfs");
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    loadFolders();
-  }, [setFolders]);
-
-  const handleNewFolder = async () => {
-    try {
-      const slug = slugify(value);
-      const { data } = await supabase
-        .from("folders")
-        .insert({
-          name: value,
-          slug: slug,
-          color: selected?.color,
-        })
-        .select("* ,folders_notes(notes!inner(count))")
-        .single();
-      setFolders([...folders, data]);
-      setOpen(false);
-      toast.success("Folder '" + value + "' successfully created !");
-    } catch (e) {
-      console.log(e);
-      toast.error("An error occured trying to create a new folder.");
-    }
-  };
   return (
     <ContextMenu
       items={
         <MenuItem
-          onClick={() => setOpen(true)}
+          onClick={() => setOpenNewFolder(true)}
           class="flex hover:bg-blue-gray-100 py-1 px-2 rounded gap-2"
         >
           <div>New folder</div>
         </MenuItem>
       }
     >
-      <StickyNavbar>
-        {user && (
-          <Button onClick={() => setOpen(true)} defaultbtn={true}>
-            New folder
-          </Button>
-        )}
-      </StickyNavbar>
       <div className="folder__grid">
         {!folders ? (
-          <div className="flex justify-center mt-10 items-center w-screen">
+          <div className="flex justify-center mt-10 items-center ">
             <Loader />
           </div>
         ) : (
-          folders.map((folder) => (
-            <Folder
-              setFolders={setFolders}
-              folders={folders}
-              key={folder.id}
-              folder={folder}
-            />
-          ))
+          folders?.children.map((item) => {
+            if (item.type === "file") return <Note note={item} key={item.id} />;
+            else if (item.type === "img")
+              return <img alt={item.src} className="mini_mdx object-contain" src={item.src} />;
+            return (
+              <Folder
+                setFolders={setFolders}
+                folders={folders}
+                key={item.id}
+                folder={item}
+              />
+            );
+          })
         )}
       </div>
-      {user && (
-        <Modal
-          open={open}
-          setOpen={setOpen}
-          onCancel={() => setOpen(false)}
-          onValidate={handleNewFolder}
-          title={"New folder"}
-        >
-          <TextInput
-            value={value}
-            className="text-2xl"
-            placeHolder="Your folder's name..."
-            onChange={(e) => setValue(e.target.value)}
-          />
-          <RadioGroup
-            selected={selected}
-            setSelected={setSelected}
-            plans={plans}
-          />
-        </Modal>
-      )}
     </ContextMenu>
   );
 };

@@ -26,17 +26,6 @@ export default function Home() {
     fetchData();
   }, [setNotes]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      let { data } = await supabase.from("tags").select("*");
-      const d = data.map((d) => {
-        return { ...d, value: d.label };
-      });
-      setTags(d);
-    };
-    fetchData();
-  }, [setTags]);
-
   return (
     <div>
       <StickyNavbar>

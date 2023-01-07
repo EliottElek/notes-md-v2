@@ -9,21 +9,66 @@ import "./style/css/ffolders.css";
 import Login from "./components/Login";
 import Folders from "./pages/folders";
 import Folder from "./pages/folders/folder";
+import Layout from "./layout";
 import { Toaster } from "react-hot-toast";
-
+import { useContext } from "react";
+import Context from "./components/Context";
 function App() {
+  const { folders } = useContext(Context);
   return (
     <div className="App w-full h-full">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Folders />} />
-          <Route path="/folders/:id/notes/:slug" element={<Note />} />
-          <Route path="/folders/:id/notes/:slug/edit" element={<Edit />} />
-          <Route path="/folders/:id/new" element={<New />} />
-          <Route path="/notes" element={<Notes />} />
-          <Route path="/folders/:id" element={<Folder />} />
+          <Route
+            path="/"
+            element={
+              <Layout data={folders}>
+                <Folders />
+              </Layout>
+            }
+          />
+          <Route
+            path="/notes/:slug"
+            element={
+              <Layout data={folders}>
+                <Note />
+              </Layout>
+            }
+          />
+          <Route
+            path="/notes/:slug/edit"
+            element={
+              <Layout data={folders}>
+                <Edit />
+              </Layout>
+            }
+          />
+          <Route
+            path="notes/new"
+            element={
+              <Layout data={folders}>
+                <New />
+              </Layout>
+            }
+          />
+          <Route
+            path="/notes"
+            element={
+              <Layout data={folders}>
+                <Notes />
+              </Layout>
+            }
+          />
+          <Route
+            path="/folders/:id"
+            element={
+              <Layout data={folders}>
+                <Folder />
+              </Layout>
+            }
+          />
           <Route path="*" element={"haha"} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login />} />{" "}
         </Routes>
       </BrowserRouter>
       <Toaster />
