@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
-import Button from "../../components/Button";
 import Mdx from "../../components/Mdx";
 import Modal from "../../components/Modal";
 import Loader from "../../components/Loader";
+import {
+  Tooltip,
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+} from "@material-tailwind/react";
+import { exportToMd } from "../../lib/exportToMd";
 import SpeedDial from "../../components/SpeedDial";
-import { FiEdit } from "react-icons/fi";
 import { useParams } from "react-router";
-import { ChevronLeftIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { useNavigate } from "react-router-dom";
-import StickyNavbar from "../../components/StickyNavbar";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import {
+  PencilSquareIcon,
+  EllipsisVerticalIcon,
+} from "@heroicons/react/24/outline";
 import Breadcrumbs from "../../components/BreadCrumbs";
-
 const Note = () => {
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState(null);
-  const [folder, setFolder] = useState(null);
-
   const { user } = useAuth();
-
   const { id, slug } = useParams();
   let navigate = useNavigate();
 
@@ -38,12 +41,9 @@ const Note = () => {
       try {
         let { data } = await supabase
           .from("notes")
-          .select(
-            "slug, title, markdown, id, folders_notes(folders!inner(name, id))"
-          )
+          .select("slug, title, markdown, id, folder:folders(name, id)")
           .eq("slug", slug)
           .single();
-        setFolder(data?.folders_notes[0].folders);
         setNote(data);
       } catch (err) {
         console.log(err);
@@ -52,67 +52,57 @@ const Note = () => {
     loadNote();
   }, [slug, setNote]);
 
-  const exportToMd = () => {
-    const fileData = note.markdown;
-    const blob = new Blob([fileData], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.download = note.title + ".md";
-    link.href = url;
-    link.click();
-  };
-
   return (
     <>
-      <StickyNavbar>
-        <div className="w-full items-center justify-between  hidden md:flex">
-          {user && (
-            <div className="flex">
-              <Link to={`/folders/${id}`}>
-                <Button defaultbtn={true}>
-                  <ChevronLeftIcon className="h-4 w-4" />
-                  Back
-                </Button>
-              </Link>
-              <Link to={"edit"}>
-                <Button defaultbtn={true}>
-                  Edit <FiEdit />
-                </Button>
-              </Link>
-              <Button onClick={() => setOpen(true)} deletebtn={true}>
-                Delete <TrashIcon className="h-4 w-4" />
-              </Button>
-            </div>
-          )}
-          <div>
-            <Button onClick={exportToMd} defaultbtn={true}>
-              Export to markdown
-            </Button>
-          </div>
-        </div>
-      </StickyNavbar>
-      <div className="md:px-12 px-6 mt-2">
-        <Breadcrumbs
-          links={[
-            {
-              label: folder?.name,
-              href: "/folders/" + folder?.id,
-            },
-            {
-              disabled: true,
-              label: note?.title,
-            },
-          ]}
-        />
-      </div>
       {!note ? (
         <div className="flex justify-center w-full h-[40vh] items-center ">
           <Loader />
         </div>
       ) : (
-        <div className="md:p-10 p-4 text-left m-auto min-h-screen max-w-4xl dark:md:bg-blue-gray-600 sm:md:bg-gray-50 my-4 rounded-lg shadow-sm">
-          <Mdx mdContent={note?.markdown} />
-        </div>
+        <>
+          <div className="flex p-1 justify-center px-4 sticky z-10 w-full top-10 right-0 dark:bg-blue-gray-700 bg-gray-50">
+            <div className="hidden md:flex w-full dark:bg-blue-gray-700 bg-gray-50">
+              <Breadcrumbs
+                links={[
+                  { label: "MobiSec", href: "/folders/1" },
+                  { label: "Challenge 3" },
+                ]}
+              />
+            </div>
+            <div className="flex dark:bg-blue-gray-700 bg-gray-50 justify-end w-full md:w-auto md:absolute right-4 items-center">
+              <Tooltip
+                placement="center"
+                content="Edit note"
+                animate={{
+                  mount: { scale: 1, y: 0 },
+                  unmount: { scale: 0, y: 25 },
+                }}
+              >
+                <Link
+                  to={"edit"}
+                  className="hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md p-1"
+                >
+                  <PencilSquareIcon className="h-5 w-5 text-gray-700 dark:text-gray-200" />
+                </Link>
+              </Tooltip>
+
+              <Menu>
+                <MenuHandler>
+                  <button className="hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md p-1">
+                    <EllipsisVerticalIcon className="h-5 w-5 text-gray-700 dark:text-gray-200" />
+                  </button>
+                </MenuHandler>
+                <MenuList>
+                  <MenuItem onClick={() => exportToMd(note)}>Download</MenuItem>
+                  <MenuItem onClick={() => setOpen(true)}>Delete</MenuItem>
+                </MenuList>
+              </Menu>
+            </div>
+          </div>
+          <div className="md:p-10 p-4 text-left m-auto min-h-screen max-w-4xl mt-10 my-4 rounded-lg">
+            <Mdx mdContent={note?.markdown} />
+          </div>
+        </>
       )}
       <Modal
         open={open}
@@ -125,7 +115,10 @@ const Note = () => {
         </p>
       </Modal>
       {user && (
-        <SpeedDial onDowload={exportToMd} onDelete={() => setOpen(true)} />
+        <SpeedDial
+          onDowload={() => exportToMd(note)}
+          onDelete={() => setOpen(true)}
+        />
       )}
     </>
   );

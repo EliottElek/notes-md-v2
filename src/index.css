@@ -1,17 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+html {
+  overflow-y: hidden;
+}
 html,
 body {
   @apply dark:bg-blue-gray-700 dark:text-blue-gray-100 bg-gray-200 min-h-screen;
-
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
+body {
+  height: 100vh;
+  width: 100vw;
+  overflow-y: auto;
+}
 .App {
-  @apply dark:bg-blue-gray-700 dark:text-blue-gray-100 bg-gray-200 min-h-screen;
+  height: 100%;
+  @apply dark:bg-blue-gray-700 dark:text-blue-gray-100 bg-gray-50 min-h-screen;
 }
 
 a {
@@ -78,7 +86,9 @@ blockquote {
 hr {
   @apply mt-4 dark:opacity-25;
 }
-
+ul li {
+  list-style: none;
+}
 .mini_mdx * {
   @apply md:text-[0.4rem] text-[0.5rem] m-auto;
 }
@@ -226,66 +236,12 @@ hr {
   transition: opacity 250ms ease !important;
 }
 
-.react-contextmenu.react-contextmenu--visible {
-  opacity: 1;
-  pointer-events: auto;
-  z-index: 9999;
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
-.react-contextmenu-item {
-  background: 0 0;
-  border: 0;
-  color: #373a3c;
-  cursor: pointer;
-  font-weight: 400;
-  line-height: 1.5;
-  padding: 3px 20px;
-  text-align: inherit;
-  white-space: nowrap;
-}
-
-.react-contextmenu-item.react-contextmenu-item--active,
-.react-contextmenu-item.react-contextmenu-item--selected {
-  color: #fff;
-  background-color: #20a0ff;
-  border-color: #20a0ff;
-  text-decoration: none;
-}
-
-.react-contextmenu-item.react-contextmenu-item--disabled,
-.react-contextmenu-item.react-contextmenu-item--disabled:hover {
-  background-color: transparent;
-  border-color: rgba(0, 0, 0, 0.15);
-  color: #878a8c;
-}
-
-.react-contextmenu-item--divider {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-  cursor: inherit;
-  margin-bottom: 3px;
-  padding: 2px 0;
-}
-.react-contextmenu-item--divider:hover {
-  background-color: transparent;
-  border-color: rgba(0, 0, 0, 0.15);
-}
-
-.react-contextmenu-item.react-contextmenu-submenu {
-  padding: 0;
-}
-
-.react-contextmenu-item.react-contextmenu-submenu > .react-contextmenu-item {
-}
-
-.react-contextmenu-item.react-contextmenu-submenu
-  > .react-contextmenu-item:after {
-  content: "▶";
-  display: inline-block;
-  position: absolute;
-  right: 7px;
-}
-
-.example-multiple-targets::after {
-  content: attr(data-count);
-  display: block;
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

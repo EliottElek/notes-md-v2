@@ -54,7 +54,7 @@ const Note = ({ note }) => {
         </>
       }
     >
-      <Link to={"notes/" + note.slug}>
+      <Link to={"/notes/" + note.slug}>
         <div className="w-full text-center">
           <div className="mini_mdx">
             <Mdx mdContent={note.markdown} />

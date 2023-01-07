@@ -60,47 +60,17 @@ const Edit = () => {
 
   return (
     <div>
-      <StickyNavbar>
-        <div className="flex flex-col">
-          <div className="flex items-center">
-            <Link to={`/folders/${id}/notes/${note?.slug}`}>
-              <Button defaultbtn={true}>
-                <ChevronLeftIcon className="h-4 w-4" />
-                Back
-              </Button>
-            </Link>
-            <Button onClick={saveNewPost}>
-              {loading ? "Saving..." : "Save note"}
-            </Button>
-          </div>
-        </div>
-      </StickyNavbar>
       {!note ? (
         <div className="flex justify-center w-full h-[40vh] items-center ">
           <Loader />
         </div>
       ) : (
-        <div className="md:p-10 p-4">
-          <div>
-            <div>
-              <input
-                type="text"
-                id="first_name"
-                className="bg-transparent border-none text-3xl focus:outline-none w-full mt-3"
-                placeholder="Title of your note..."
-                required
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="flex h-[70vh] flex-col flex-grow">
-            <Editor
-              value={content}
-              onChange={handleEditorChange}
-              placeholder="Your content goes here..."
-            />
-          </div>
+        <div className="flex -mt-2 flex-1 flex-col h-[calc(100vh_-_40px)] flex-grow">
+          <Editor
+            value={content}
+            onChange={handleEditorChange}
+            placeholder="Your content goes here..."
+          />
         </div>
       )}
     </div>
