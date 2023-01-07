@@ -3,7 +3,7 @@ import { supabase } from "../../lib/supabase";
 import { useParams } from "react-router";
 import Loader from "../../components/Loader";
 import { Navigate } from "react-router";
-import { toast } from "react-hot-toast";
+// import { toast } from "react-hot-toast";
 import { useAuth } from "../../hooks/useAuth";
 import Editor from "../../components/Editor";
 const Edit = () => {
@@ -12,7 +12,7 @@ const Edit = () => {
   const [title, setTitle] = useState();
   const { slug } = useParams();
   const { user } = useAuth();
-
+  console.log(title);
   const handleEditorChange = ({ text }) => {
     setContent(text);
   };
