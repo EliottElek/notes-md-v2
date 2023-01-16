@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import ContextMenu from "./ContextMenu";
+import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import TextInput from "./TextInput";
 import RadioGroup from "./RadioGroup";
 import { supabase } from "../lib/supabase";
 import { toast } from "react-hot-toast";
-import { MenuItem } from "react-contextmenu";
+import Draggable from "react-draggable";
 const plans = [
   {
     name: "Cyan (default)",
@@ -26,6 +25,8 @@ const Folder = ({ folder, setFolders, folders }) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [confirmation, setConfirmation] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
+  const navigate = useNavigate();
   const [selected, setSelected] = useState(
     plans.find((plan) => plan.color === folder.color || plan[0])
   );
@@ -64,37 +65,31 @@ const Folder = ({ folder, setFolders, folders }) => {
   };
   return (
     <>
-      <ContextMenu
-        items={
-          <>
-            <MenuItem
-              onClick={() => setOpenUpdate(true)}
-              class="flex hover:bg-blue-gray-100 py-1 px-2 rounded gap-2"
-            >
-              <div>Rename</div>
-            </MenuItem>
-            <MenuItem
-              onClick={() => setOpenDelete(true)}
-              class="flex hover:bg-blue-gray-100 py-1 px-2 rounded gap-2"
-            >
-              <div>Delete</div>
-            </MenuItem>
-          </>
-        }
-      >
-        <Link
-          to={"/folders/" + folder.id}
-          className="flex flex-col justify-center"
+      <div>
+        <Draggable
+          onDrag={() => setIsDragging(true)}
+          onStop={() => {
+            if (!isDragging) {
+              navigate("/folders/" + folder.id);
+            }
+            setIsDragging(false);
+          }}
         >
           <div
-            className={`ffolder medium ${
-              folder?.color ? folder?.color : "cyan"
-            } m-2`}
+            className={[
+              "flex flex-col justify-center cursor-pointer",
+              isDragging && "z-50",
+            ].join(" ")}
           >
+            <div
+              className={`ffolder medium ${
+                folder?.color ? folder?.color : "cyan"
+              } m-2`}
+            ></div>
+            <span className="text-center">{folder.name}</span>
           </div>
-          <span className="text-center">{folder.name}</span>
-        </Link>
-      </ContextMenu>
+        </Draggable>
+      </div>
       <Modal
         open={openUpdate}
         setOpen={setOpenUpdate}

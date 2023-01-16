@@ -94,7 +94,7 @@ ul li {
   list-style: none;
 }
 .mini_mdx * {
-  @apply md:text-[0.4rem] text-[0.5rem] m-auto;
+  @apply md:text-[0.4rem] text-[0.5rem] m-auto pointer-events-none;
 }
 .mini_mdx pre {
   margin: 0.3rem;
@@ -106,13 +106,13 @@ ul li {
   @apply border-l pl-1 mt-1;
 }
 .mini_mdx pre * {
-  @apply p-0 m-0 rounded-md;
+  @apply p-0 m-0 rounded-md overflow-hidden;
 }
 /* .mini_mdx img {
   @apply scale-50;
 } */
 .mini_mdx {
-  @apply m-auto;
+  @apply m-auto cursor-pointer;
   @apply rounded-md p-4 m-4 md:text-[0.3rem] text-[0.5rem] overflow-hidden bg-gray-50 dark:bg-blue-gray-600 shadow-sm sm:h-[310px] h-[70vh];
 }
 .rc-md-editor div {

@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Mdx from "./Mdx";
-import { MenuItem } from "react-contextmenu";
-import ContextMenu from "./ContextMenu";
+import Draggable from "react-draggable";
 import Modal from "./Modal";
 import TextInput from "./TextInput";
 import { supabase } from "../lib/supabase";
 import { toast } from "react-hot-toast";
 const Note = ({ note }) => {
   const [openDelete, setOpenDelete] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [confirmation, setConfirmation] = useState("");
   const [value, setValue] = useState(note?.title);
+  const navigate = useNavigate();
 
   const handleRename = async () => {
     try {
@@ -36,32 +37,23 @@ const Note = ({ note }) => {
     setOpenDelete(false);
   };
   return (
-    <ContextMenu
-      items={
-        <>
-          <MenuItem
-            onClick={() => setOpenUpdate(true)}
-            class="flex hover:bg-blue-gray-100 py-1 px-2 rounded gap-2"
-          >
-            <div>Rename</div>
-          </MenuItem>
-          <MenuItem
-            onClick={() => setOpenDelete(true)}
-            class="flex hover:bg-blue-gray-100 py-1 px-2 rounded gap-2"
-          >
-            <div>Delete</div>
-          </MenuItem>
-        </>
-      }
-    >
-      <Link to={"/notes/" + note.slug}>
-        <div className="w-full text-center">
+    <>
+      <Draggable
+        onDrag={() => setIsDragging(true)}
+        onStop={() => {
+          if (!isDragging) {
+            navigate("/notes/" + note?.slug);
+          }
+          setIsDragging(false);
+        }}
+      >
+        <div className={["w-full text-center", isDragging && "z-50"].join(" ")}>
           <div className="mini_mdx">
-            <Mdx mdContent={note.markdown} />
+            <Mdx mdContent={note?.markdown} />
           </div>
-          {note.title}
+          <p>{note?.title}</p>
         </div>
-      </Link>
+      </Draggable>
       <Modal
         open={openUpdate}
         setOpen={setOpenUpdate}
@@ -98,7 +90,7 @@ const Note = ({ note }) => {
           />
         </div>
       </Modal>
-    </ContextMenu>
+    </>
   );
 };
 

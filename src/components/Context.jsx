@@ -31,6 +31,7 @@ export function ContextProvider({ children }) {
   const [tabs, setTabs] = useLocalStorage("TABS", []);
   const { user } = useAuth();
   const [folders, setFolders] = useState(null);
+  const [currentNote, setCurrentNote] = useState(null);
   const [openNewFolder, setOpenNewFolder] = useState(false);
   const [openDeleteNote, setOpenDeleteNote] = useState(false);
   const [value, setValue] = useState("");
@@ -125,6 +126,8 @@ export function ContextProvider({ children }) {
     <Context.Provider
       value={{
         folders,
+        currentNote,
+        setCurrentNote,
         tabs,
         setTabs,
         exportToMd,

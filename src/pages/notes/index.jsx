@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 import Mdx from "../../components/Mdx";
 import Modal from "../../components/Modal";
@@ -15,6 +15,7 @@ import SpeedDial from "../../components/SpeedDial";
 import { useParams } from "react-router";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import Context from "../../components/Context";
 import {
   PencilSquareIcon,
   EllipsisVerticalIcon,
@@ -22,20 +23,37 @@ import {
 import Breadcrumbs from "../../components/BreadCrumbs";
 const Note = () => {
   const [open, setOpen] = useState(false);
-  const [note, setNote] = useState(null);
+  const { currentNote, setCurrentNote } = useContext(Context);
   const { user } = useAuth();
   const { slug } = useParams();
   let navigate = useNavigate();
 
   const handleDeleteNote = async () => {
     try {
-      await supabase.from("folders_notes").delete().eq("note_id", note.id);
-      await supabase.from("notes").delete().eq("id", note.id);
+      await supabase
+        .from("folders_notes")
+        .delete()
+        .eq("note_id", currentNote.id);
+      await supabase.from("notes").delete().eq("id", currentNote.id);
       setOpen(false);
       navigate("/");
     } catch (err) {}
   };
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      const code = event.which || event.keyCode;
 
+      let charCode = String.fromCharCode(code).toLowerCase();
+      if ((event.ctrlKey || event.metaKey) && charCode === "e") {
+        event.preventDefault();
+        navigate("edit");
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [navigate]);
   useEffect(() => {
     const loadNote = async () => {
       try {
@@ -44,17 +62,17 @@ const Note = () => {
           .select("slug, title, markdown, id, folder:folders(name, id)")
           .eq("slug", slug)
           .single();
-        setNote(data);
+        setCurrentNote({ ...data, saved: true });
       } catch (err) {
         console.log(err);
       }
     };
     loadNote();
-  }, [slug, setNote]);
+  }, [slug, setCurrentNote]);
 
   return (
     <>
-      {!note ? (
+      {!currentNote ? (
         <div className="flex justify-center w-full h-[40vh] items-center ">
           <Loader />
         </div>
@@ -92,14 +110,16 @@ const Note = () => {
                   </button>
                 </MenuHandler>
                 <MenuList>
-                  <MenuItem onClick={() => exportToMd(note)}>Download</MenuItem>
+                  <MenuItem onClick={() => exportToMd(currentNote)}>
+                    Download
+                  </MenuItem>
                   <MenuItem onClick={() => setOpen(true)}>Delete</MenuItem>
                 </MenuList>
               </Menu>
             </div>
           </div>
           <div className="md:p-10 p-4 text-left m-auto min-h-screen max-w-4xl mt-10 my-4 rounded-lg">
-            <Mdx mdContent={note?.markdown} />
+            <Mdx mdContent={currentNote?.markdown} />
           </div>
         </>
       )}
@@ -115,7 +135,7 @@ const Note = () => {
       </Modal>
       {user && (
         <SpeedDial
-          onDowload={() => exportToMd(note)}
+          onDowload={() => exportToMd(currentNote)}
           onDelete={() => setOpen(true)}
         />
       )}
