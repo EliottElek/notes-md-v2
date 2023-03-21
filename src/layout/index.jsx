@@ -5,6 +5,7 @@ import Tabs, { Tab } from "../components/Tabs";
 import Context from "../components/Context";
 import { supabase } from "../lib/supabase";
 import useDarkMode from "../lib/useDarkMode";
+import { Link } from "react-router-dom";
 import { FiMoon } from "react-icons/fi";
 import {
   ArrowsPointingInIcon,
@@ -74,9 +75,11 @@ export default function Layout({ children, data }) {
                       unmount: { scale: 0, y: 25 },
                     }}
                   >
-                    <button className="hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md p-1">
-                      <PencilSquareIcon className="h-6 w-6 text-gray-700 dark:text-gray-200" />
-                    </button>
+                    <Link to={"/notes/new"}>
+                      <button className="hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md p-1">
+                        <PencilSquareIcon className="h-6 w-6 text-gray-700 dark:text-gray-200" />
+                      </button>
+                    </Link>
                   </Tooltip>
                   <Tooltip
                     placement="bottom"

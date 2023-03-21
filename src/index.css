@@ -94,10 +94,11 @@ ul li {
   list-style: none;
 }
 .mini_mdx * {
-  @apply md:text-[0.4rem] text-[0.5rem] m-auto pointer-events-none;
+  @apply md:text-[0.4rem] text-[0.5rem] m-auto pointer-events-none overflow-hidden;
 }
 .mini_mdx pre {
   margin: 0.3rem;
+  @apply overflow-hidden;
 }
 .mini_mdx button {
   display: none;
@@ -113,7 +114,7 @@ ul li {
 } */
 .mini_mdx {
   @apply m-auto cursor-pointer;
-  @apply rounded-md p-4 m-4 md:text-[0.3rem] text-[0.5rem] overflow-hidden bg-gray-50 dark:bg-blue-gray-600 shadow-sm sm:h-[310px] h-[70vh];
+  @apply rounded-md p-4 m-4 md:text-[0.3rem] text-[0.5rem] !overflow-hidden bg-gray-50 dark:bg-blue-gray-600 shadow-sm sm:h-[310px] h-[70vh];
 }
 .rc-md-editor div {
   @apply dark:bg-blue-gray-700 dark:!text-blue-gray-50;
@@ -248,4 +249,8 @@ ul li {
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+pre code.hljs {
+  @apply !overflow-hidden;
 }

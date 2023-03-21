@@ -4,7 +4,6 @@ import slugify from "react-slugify";
 import { useNavigate, Link, Navigate } from "react-router-dom";
 import Button from "../components/Button";
 import shortid from "shortid";
-import StickyNavbar from "../components/StickyNavbar";
 import { useAuth } from "../hooks/useAuth";
 import Editor from "../components/Editor";
 import { useParams } from "react-router";
@@ -52,16 +51,8 @@ const New = () => {
 
   return (
     <div>
-      <StickyNavbar>
-        <div className="flex items-center">
-          <Link to="/">
-            <Button defaultbtn={true}>Cancel</Button>
-          </Link>
-          <Button onClick={createNewPost}>Publish note</Button>
-        </div>
-      </StickyNavbar>
       <div className="mt-2 md:p-10 p-4 text-lg text-left">
-        <div>
+        <div className="flex items-center justify-between">
           <input
             type="text"
             id="first_name"
@@ -71,6 +62,12 @@ const New = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+          <div className="flex items-center gap-2">
+            <Link to="/">
+              <Button defaultbtn={true}>Cancel</Button>
+            </Link>
+            <Button onClick={createNewPost}>Publish note</Button>
+          </div>
         </div>
         <div className="flex h-[60vh] flex-col flex-grow">
           <Editor

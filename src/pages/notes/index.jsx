@@ -19,11 +19,16 @@ import Context from "../../components/Context";
 import {
   PencilSquareIcon,
   EllipsisVerticalIcon,
+  CheckIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
-import Breadcrumbs from "../../components/BreadCrumbs";
+import toast from "react-hot-toast";
 const Note = () => {
   const [open, setOpen] = useState(false);
   const { currentNote, setCurrentNote } = useContext(Context);
+  const [title, setTitle] = useState("");
+  const [focused, setFocused] = useState(false);
+
   const { user } = useAuth();
   const { slug } = useParams();
   let navigate = useNavigate();
@@ -37,6 +42,17 @@ const Note = () => {
       await supabase.from("notes").delete().eq("id", currentNote.id);
       setOpen(false);
       navigate("/");
+    } catch (err) {}
+  };
+  const handleUpdateTitle = async (e) => {
+    e.stopPropagation();
+    try {
+      await supabase
+        .from("notes")
+        .update({ title: title })
+        .eq("id", currentNote.id);
+      setCurrentNote({ ...currentNote, title: title });
+      toast.success("Title successfully modified.");
     } catch (err) {}
   };
   useEffect(() => {
@@ -63,12 +79,13 @@ const Note = () => {
           .eq("slug", slug)
           .single();
         setCurrentNote({ ...data, saved: true });
+        setTitle(data.title);
       } catch (err) {
         console.log(err);
       }
     };
     loadNote();
-  }, [slug, setCurrentNote]);
+  }, [slug, setCurrentNote, setTitle]);
 
   return (
     <>
@@ -79,14 +96,6 @@ const Note = () => {
       ) : (
         <>
           <div className="flex p-1 justify-center px-4 sticky z-10 w-full top-10 right-0 dark:bg-blue-gray-700 bg-gray-50">
-            <div className="hidden md:flex w-full dark:bg-blue-gray-700 bg-gray-50">
-              <Breadcrumbs
-                links={[
-                  { label: "MobiSec", href: "/folders/1" },
-                  { label: "Challenge 3" },
-                ]}
-              />
-            </div>
             <div className="flex dark:bg-blue-gray-700 bg-gray-50 justify-end w-full md:w-auto md:absolute right-4 items-center">
               <Tooltip
                 placement="left"
@@ -119,6 +128,26 @@ const Note = () => {
             </div>
           </div>
           <div className="md:p-10 p-4 text-left m-auto min-h-screen max-w-4xl mt-10 my-4 rounded-lg">
+            <div className="flex items-center gap-2">
+              <input
+                className="text-5xl w-full my-6 bg-transparent outline-none"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              {title !== currentNote?.title && (
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleUpdateTitle}
+                    className="rounded-md bg-green-400 flex text-white items-center justify-center px-5 py-1"
+                  >
+                    <CheckIcon className="h-5 w-5" />
+                  </button>
+                  <button className="rounded-md bg-red-400 flex items-center text-white justify-center px-5 py-1">
+                    <XMarkIcon className="h-5 w-5" />
+                  </button>
+                </div>
+              )}
+            </div>
             <Mdx mdContent={currentNote?.markdown} />
           </div>
         </>

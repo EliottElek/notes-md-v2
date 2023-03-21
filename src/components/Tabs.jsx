@@ -29,7 +29,7 @@ export const Tab = ({ tab }) => {
   return (
     <div
       className={[
-        "flex mt-1 z-0 relative h-9 border-t border-l border-r border-transparent hover:bg-gray-300 dark:hover:bg-blue-gray-700 rounded-t items-center gap-3 p-1 w-[175px] justify-between text-gray-700 dark:text-gray-200",
+        "flex mt-1 z-0 relative  h-9 border-t border-l border-r border-transparent hover:bg-gray-300 dark:hover:bg-blue-gray-700 rounded-t items-center gap-3 p-1 w-[175px] justify-between text-gray-700 dark:text-gray-200",
         slug === tab.slug &&
           "bg-gray-50 border-gray-400 border-opacity-50 dark:border-blue-gray-500 dark:bg-blue-gray-700 hover:bg-gray-50",
       ].join(" ")}
@@ -37,14 +37,12 @@ export const Tab = ({ tab }) => {
       <Link
         to={"/notes/" + tab?.slug}
         className={[
-          "flex-none w-[80%] truncate text-sky-300 border-t border-b border-t-transparent border-b-transparent px-4 flex items-center",
+          "w-full px-3 truncate !text-ellipsis",
         ].join(" ")}
       >
         {tab?.title}
       </Link>
-      {/* {slug === tab.slug && !currentNote.saved && (
-        <span className="absolute top-1/2 -translate-y-1/2 right-10 bg-gray-400 rounded-full h-3 w-3"></span>
-      )} */}
+
       <Tooltip
         placement="bottom"
         content="Close"
