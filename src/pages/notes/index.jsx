@@ -27,7 +27,6 @@ const Note = () => {
   const [open, setOpen] = useState(false);
   const { currentNote, setCurrentNote } = useContext(Context);
   const [title, setTitle] = useState("");
-  const [focused, setFocused] = useState(false);
 
   const { user } = useAuth();
   const { slug } = useParams();
