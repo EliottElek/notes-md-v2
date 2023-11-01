@@ -3,9 +3,7 @@ import React from "react";
 export const FileIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="inline-block w-5 h-5 mr-2 stroke-current"
-    width="44"
-    height="44"
+    className="inline-block  -mt-1 w-4 h-4 mr-2 stroke-current"
     viewBox="0 0 24 24"
     strokeWidth="1.5"
     stroke="#2c3e50"

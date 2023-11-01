@@ -7,6 +7,7 @@ import RadioGroup from "./RadioGroup";
 import slugify from "react-slugify";
 import toast from "react-hot-toast";
 import { useAuth } from "../hooks/useAuth";
+import SettingsModal from "./SettingsModal";
 const Context = createContext();
 
 const plans = [
@@ -30,10 +31,12 @@ export function ContextProvider({ children }) {
   const [tabs, setTabs] = useLocalStorage("TABS", []);
   const { user } = useAuth();
   const [folders, setFolders] = useState(null);
+  const [currentNote, setCurrentNote] = useState(null);
   const [openNewFolder, setOpenNewFolder] = useState(false);
   const [openDeleteNote, setOpenDeleteNote] = useState(false);
   const [value, setValue] = useState("");
   const [selected, setSelected] = useState(plans[0]);
+  const [openSettingsModal, setOpenSettingsModal] = useState(false);
 
   const exportToMd = (note) => {
     const fileData = note.markdown;
@@ -123,12 +126,15 @@ export function ContextProvider({ children }) {
     <Context.Provider
       value={{
         folders,
+        currentNote,
+        setCurrentNote,
         tabs,
         setTabs,
         exportToMd,
         setOpenNewFolder,
         setOpenDeleteNote,
         openDeleteNote,
+        setOpenSettingsModal,
       }}
     >
       {children}
@@ -153,6 +159,7 @@ export function ContextProvider({ children }) {
           />
         </Modal>
       )}
+      <SettingsModal open={openSettingsModal} setOpen={setOpenSettingsModal} />
     </Context.Provider>
   );
 }
